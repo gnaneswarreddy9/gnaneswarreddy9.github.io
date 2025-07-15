@@ -182,3 +182,42 @@ print("Selected Features:", selected)
 
 <p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
 <p>RFECV helped reduce the model to <strong>14 highly relevant features</strong> while maintaining high accuracy. It’s a great technique when you want model-driven, validated feature reduction.</p>
+<h2>📊 Feature Selection Summary</h2>
+<p>Here’s a side-by-side comparison of all three techniques used:</p>
+
+<table border="1" cellspacing="0" cellpadding="8">
+  <thead style="background-color:#dee2e6;">
+    <tr>
+      <th>Method</th>
+      <th># Features</th>
+      <th>Selected Features (Shortened)</th>
+      <th>Accuracy</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>L1 Regularization</strong></td>
+      <td>16</td>
+      <td>mean texture, concave points, area error, worst area, ...</td>
+      <td>99.3%</td>
+      <td>Highest accuracy, automatic feature shrinking</td>
+    </tr>
+    <tr>
+      <td><strong>RFECV</strong></td>
+      <td>14</td>
+      <td>mean radius, area error, worst perimeter, concave points...</td>
+      <td>97.9%</td>
+      <td>Cross-validated, model-driven elimination</td>
+    </tr>
+    <tr>
+      <td><strong>SFS</strong></td>
+      <td>14</td>
+      <td>compactness, symmetry, texture error, worst radius...</td>
+      <td>97.9%</td>
+      <td>Forward-additive, greedy but interpretable</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All three methods produced high-performing models, with L1 regularization slightly outperforming others while keeping the model interpretable.</p>
