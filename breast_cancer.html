@@ -28,10 +28,22 @@
       padding: 2px 4px;
       border-radius: 3px;
     }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    thead {
+      background-color: #e0e0e0;
+    }
   </style>
 </head>
 <body>
-
   <div class="nav">
     <a href="index.html">🏠 Home</a>
     <a href="breast_cancer.html">🔬 Breast Cancer Project</a>
@@ -55,184 +67,160 @@
   <h2>🎯 Objective</h2>
   <p>Classify whether a tumor is <strong>malignant</strong> (harmful) or <strong>benign</strong> (non-harmful) using machine learning and compare different modeling techniques and feature selection methods.</p>
 
-  <p><em>Next: Feature Engineering, Selection, and Modeling Results ➡️</em></p>
-<h2>🧠 Feature Selection: L1 Regularization</h2>
-<p>
-L1 regularization (also known as Lasso) adds a penalty to the loss function that forces less important feature coefficients to zero. This helps automatically eliminate irrelevant features.
-</p>
+  <h2>🧠 Feature Selection: L1 Regularization</h2>
+  <p>
+    L1 regularization (also known as Lasso) adds a penalty to the loss function that forces less important feature coefficients to zero. This helps automatically eliminate irrelevant features.
+  </p>
 
-<p>We applied it using scikit-learn's <code>LogisticRegression</code> with <code>penalty='l1'</code>:</p>
-
-<pre><code>
-from sklearn.linear_model import LogisticRegression
+  <pre><code>from sklearn.linear_model import LogisticRegression
 model = LogisticRegression(penalty='l1', solver='liblinear')
 model.fit(X_train_scaled, y_train)
 
 # Get selected features
-selected = X.columns[model.coef_[0] != 0]
-print("Selected Features:", selected)
-</code></pre>
+selected = X.columns[model.coef_[0] != 0]</code></pre>
 
-<p><strong>✅ Selected Features (16 total):</strong></p>
-<ul>
-  <li>mean texture</li>
-  <li>mean concave points</li>
-  <li>radius error</li>
-  <li>texture error</li>
-  <li>area error</li>
-  <li>smoothness error</li>
-  <li>compactness error</li>
-  <li>symmetry error</li>
-  <li>fractal dimension error</li>
-  <li>worst radius</li>
-  <li>worst texture</li>
-  <li>worst area</li>
-  <li>worst smoothness</li>
-  <li>worst concavity</li>
-  <li>worst concave points</li>
-  <li>worst symmetry</li>
-</ul>
+  <p><strong>✅ Selected Features (16 total):</strong></p>
+  <ul>
+    <li>mean texture</li>
+    <li>mean concave points</li>
+    <li>radius error</li>
+    <li>texture error</li>
+    <li>area error</li>
+    <li>smoothness error</li>
+    <li>compactness error</li>
+    <li>symmetry error</li>
+    <li>fractal dimension error</li>
+    <li>worst radius</li>
+    <li>worst texture</li>
+    <li>worst area</li>
+    <li>worst smoothness</li>
+    <li>worst concavity</li>
+    <li>worst concave points</li>
+    <li>worst symmetry</li>
+  </ul>
 
-<p><strong>🎯 Model Accuracy:</strong> 99.3%</p>
-<p>This selection led to the <strong>highest accuracy</strong> across all techniques while reducing feature count nearly by half — balancing performance and interpretability.</p>
+  <p><strong>🎯 Model Accuracy:</strong> 99.3%</p>
 
-</body>
-</html>
-<h2>🔁 Feature Selection: RFECV</h2>
-<p>
-RFECV (Recursive Feature Elimination with Cross-Validation) recursively removes the least important features based on model coefficients, while using cross-validation to select the optimal number of features.
-</p>
+  <h2>🔁 Feature Selection: RFECV</h2>
+  <p>
+    RFECV (Recursive Feature Elimination with Cross-Validation) recursively removes the least important features based on model coefficients, while using cross-validation to select the optimal number of features.
+  </p>
 
-<p>We used it with logistic regression to balance accuracy and feature count.</p>
-
-<pre><code>
-from sklearn.feature_selection import RFECV
+  <pre><code>from sklearn.feature_selection import RFECV
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold
 
 model = LogisticRegression(max_iter=5000)
 rfecv = RFECV(estimator=model, cv=StratifiedKFold(5), scoring='accuracy')
-rfecv.fit(X_train_scaled, y_train)
+rfecv.fit(X_train_scaled, y_train)</code></pre>
 
-selected = X.columns[rfecv.support_]
-print("Optimal Features:", selected)
-</code></pre>
+  <p><strong>🧠 Selected Features (14 total):</strong></p>
+  <ul>
+    <li>mean radius</li>
+    <li>mean area</li>
+    <li>mean concave points</li>
+    <li>radius error</li>
+    <li>area error</li>
+    <li>compactness error</li>
+    <li>worst radius</li>
+    <li>worst texture</li>
+    <li>worst perimeter</li>
+    <li>worst area</li>
+    <li>worst smoothness</li>
+    <li>worst concavity</li>
+    <li>worst concave points</li>
+    <li>worst symmetry</li>
+  </ul>
+  <p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
 
-<p><strong>🧠 Selected Features (14 total):</strong></p>
-<ul>
-  <li>mean radius</li>
-  <li>mean area</li>
-  <li>mean concave points</li>
-  <li>radius error</li>
-  <li>area error</li>
-  <li>compactness error</li>
-  <li>worst radius</li>
-  <li>worst texture</li>
-  <li>worst perimeter</li>
-  <li>worst area</li>
-  <li>worst smoothness</li>
-  <li>worst concavity</li>
-  <li>worst concave points</li>
-  <li>worst symmetry</li>
-</ul>
-<h2>📈 Feature Selection: Sequential Forward Selection (SFS)</h2>
-<p>
-Sequential Forward Selection (SFS) is a greedy search algorithm that starts with no features and adds one at a time — picking the feature that improves model performance the most at each step.
-</p>
+  <h2>📈 Feature Selection: Sequential Forward Selection (SFS)</h2>
+  <p>
+    SFS is a greedy search algorithm that starts with no features and adds one at a time — picking the feature that improves model performance the most at each step.
+  </p>
 
-<p>We used it with logistic regression to explore additive feature benefits.</p>
-
-<pre><code>
-from mlxtend.feature_selection import SequentialFeatureSelector as SFS
+  <pre><code>from mlxtend.feature_selection import SequentialFeatureSelector as SFS
 from sklearn.linear_model import LogisticRegression
 
 model = LogisticRegression(max_iter=5000)
-sfs = SFS(model, 
-          k_features='best', 
-          forward=True, 
-          floating=False, 
-          scoring='accuracy', 
-          cv=5)
+sfs = SFS(model, forward=True, floating=False, scoring='accuracy', cv=5)
+sfs.fit(X_train_scaled, y_train)</code></pre>
 
-sfs.fit(X_train_scaled, y_train)
-selected = X.columns[list(sfs.k_feature_idx_)]
-print("Selected Features:", selected)
-</code></pre>
+  <p><strong>🧠 Selected Features (14 total):</strong></p>
+  <ul>
+    <li>mean compactness</li>
+    <li>mean concave points</li>
+    <li>mean symmetry</li>
+    <li>mean fractal dimension</li>
+    <li>texture error</li>
+    <li>smoothness error</li>
+    <li>compactness error</li>
+    <li>fractal dimension error</li>
+    <li>worst radius</li>
+    <li>worst texture</li>
+    <li>worst perimeter</li>
+    <li>worst area</li>
+    <li>worst smoothness</li>
+    <li>worst symmetry</li>
+  </ul>
+  <p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
 
-<p><strong>🧠 Selected Features (14 total):</strong></p>
-<ul>
-  <li>mean compactness</li>
-  <li>mean concave points</li>
-  <li>mean symmetry</li>
-  <li>mean fractal dimension</li>
-  <li>texture error</li>
-  <li>smoothness error</li>
-  <li>compactness error</li>
-  <li>fractal dimension error</li>
-  <li>worst radius</li>
-  <li>worst texture</li>
-  <li>worst perimeter</li>
-  <li>worst area</li>
-  <li>worst smoothness</li>
-  <li>worst symmetry</li>
-</ul>
+  <h2>📊 Feature Selection Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th># Features</th>
+        <th>Selected Features (Shortened)</th>
+        <th>Accuracy</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>L1 Regularization</strong></td>
+        <td>16</td>
+        <td>mean texture, concave points, area error, worst area, ...</td>
+        <td>99.3%</td>
+        <td>Highest accuracy, automatic feature shrinking</td>
+      </tr>
+      <tr>
+        <td><strong>RFECV</strong></td>
+        <td>14</td>
+        <td>mean radius, area error, worst perimeter, concave points...</td>
+        <td>97.9%</td>
+        <td>Cross-validated, model-driven elimination</td>
+      </tr>
+      <tr>
+        <td><strong>SFS</strong></td>
+        <td>14</td>
+        <td>compactness, symmetry, texture error, worst radius...</td>
+        <td>97.9%</td>
+        <td>Forward-additive, greedy but interpretable</td>
+      </tr>
+    </tbody>
+  </table>
 
-<p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
-<p>SFS provided a slightly different feature set than RFECV or L1, showing how <strong>different selection strategies highlight different aspects</strong> of the data.</p>
+  <h2>📈 Accuracy Comparison Chart</h2>
+  <p>The bar chart below shows how each feature selection method performed in terms of model accuracy.</p>
+  <img src="accuracy_comparison.png" alt="Accuracy Comparison" width="500">
 
-<p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
-<p>RFECV helped reduce the model to <strong>14 highly relevant features</strong> while maintaining high accuracy. It’s a great technique when you want model-driven, validated feature reduction.</p>
-<h2>📊 Feature Selection Summary</h2>
-<p>Here’s a side-by-side comparison of all three techniques used:</p>
+  <h2>🧮 Confusion Matrix (L1 Regularized)</h2>
+  <p>This confusion matrix illustrates how well the model performs after selecting 16 features using L1 regularization.</p>
+  <img src="confusion_matrix_l1_pct.png" alt="Confusion Matrix - L1" width="450">
 
-<table border="1" cellspacing="0" cellpadding="8">
-  <thead style="background-color:#dee2e6;">
-    <tr>
-      <th>Method</th>
-      <th># Features</th>
-      <th>Selected Features (Shortened)</th>
-      <th>Accuracy</th>
-      <th>Notes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>L1 Regularization</strong></td>
-      <td>16</td>
-      <td>mean texture, concave points, area error, worst area, ...</td>
-      <td>99.3%</td>
-      <td>Highest accuracy, automatic feature shrinking</td>
-    </tr>
-    <tr>
-      <td><strong>RFECV</strong></td>
-      <td>14</td>
-      <td>mean radius, area error, worst perimeter, concave points...</td>
-      <td>97.9%</td>
-      <td>Cross-validated, model-driven elimination</td>
-    </tr>
-    <tr>
-      <td><strong>SFS</strong></td>
-      <td>14</td>
-      <td>compactness, symmetry, texture error, worst radius...</td>
-      <td>97.9%</td>
-      <td>Forward-additive, greedy but interpretable</td>
-    </tr>
-  </tbody>
-</table>
+  <h2>📁 Full Code Notebook</h2>
+  <p>You can view or download the complete Jupyter Notebook here:</p>
+  <p><a href="Breast_cancer_auto_feature_selection.ipynb" target="_blank">🔗 Download Notebook</a></p>
 
-<p>All three methods produced high-performing models, with L1 regularization slightly outperforming others while keeping the model interpretable.</p>
-<h2>📈 Accuracy Comparison Chart</h2>
-<p>The bar chart below shows how each feature selection method performed in terms of model accuracy.</p>
+  <h2>🧠 Final Insight</h2>
+  <p>
+    Across all models, <strong>L1 Regularization</strong> offered the best accuracy while reducing feature count. This makes it a top choice when performance and interpretability both matter.
+    Feature selection is a powerful step — not just for performance, but also for clinical relevance in sensitive domains like cancer diagnosis.
+  </p>
 
-<img src="accuracy_comparison.png" alt="Accuracy Comparison" width="500">
+  <p style="text-align:center; margin-top: 40px;">
+    <a href="index.html" style="padding: 10px 20px; background-color: #2a9d8f; color: white; text-decoration: none; border-radius: 5px;">⬅️ Back to Home</a>
+  </p>
 
-<p>As shown, L1 regularization achieved the highest test accuracy (99.3%) while using only 16 features, making it the best balance of performance and simplicity.</p>
-<h2>🧮 Confusion Matrix (L1 Regularized)</h2>
-<p>This confusion matrix illustrates how well the model performs after selecting 16 features using L1 regularization.</p>
-
-<img src="confusion_matrix_l1_pct.png" alt="Confusion Matrix - L1" width="450">
-
-<p>The model shows high precision and recall, with nearly perfect accuracy. L1 regularization helps in dimensionality reduction while retaining predictive power.</p>
-<h3>📁 Full Code Notebook</h3>
-<p>You can view or download the complete Jupyter Notebook here:</p>
-<p><a href="Breast_cancer_auto_feature_selection.ipynb" target="_blank">🔗 Download Notebook</a></p>
+</body>
+</html>
