@@ -135,6 +135,50 @@ print("Optimal Features:", selected)
   <li>worst concave points</li>
   <li>worst symmetry</li>
 </ul>
+<h2>📈 Feature Selection: Sequential Forward Selection (SFS)</h2>
+<p>
+Sequential Forward Selection (SFS) is a greedy search algorithm that starts with no features and adds one at a time — picking the feature that improves model performance the most at each step.
+</p>
+
+<p>We used it with logistic regression to explore additive feature benefits.</p>
+
+<pre><code>
+from mlxtend.feature_selection import SequentialFeatureSelector as SFS
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression(max_iter=5000)
+sfs = SFS(model, 
+          k_features='best', 
+          forward=True, 
+          floating=False, 
+          scoring='accuracy', 
+          cv=5)
+
+sfs.fit(X_train_scaled, y_train)
+selected = X.columns[list(sfs.k_feature_idx_)]
+print("Selected Features:", selected)
+</code></pre>
+
+<p><strong>🧠 Selected Features (14 total):</strong></p>
+<ul>
+  <li>mean compactness</li>
+  <li>mean concave points</li>
+  <li>mean symmetry</li>
+  <li>mean fractal dimension</li>
+  <li>texture error</li>
+  <li>smoothness error</li>
+  <li>compactness error</li>
+  <li>fractal dimension error</li>
+  <li>worst radius</li>
+  <li>worst texture</li>
+  <li>worst perimeter</li>
+  <li>worst area</li>
+  <li>worst smoothness</li>
+  <li>worst symmetry</li>
+</ul>
+
+<p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
+<p>SFS provided a slightly different feature set than RFECV or L1, showing how <strong>different selection strategies highlight different aspects</strong> of the data.</p>
 
 <p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
 <p>RFECV helped reduce the model to <strong>14 highly relevant features</strong> while maintaining high accuracy. It’s a great technique when you want model-driven, validated feature reduction.</p>
