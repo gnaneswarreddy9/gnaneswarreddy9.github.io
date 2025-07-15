@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PD Model | Credit Risk Modeling</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 40px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #0d6efd;
+    }
+    pre {
+      background-color: #f1f1f1;
+      padding: 12px;
+      border-left: 4px solid #0d6efd;
+      overflow-x: auto;
+    }
+    .section {
+      margin-bottom: 50px;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0d6efd;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Probability of Default (PD) Modeling</h1>
+
+  <div class="section">
+    <h2>🔎 Introduction</h2>
+    <p>
+      In credit risk modeling, <strong>Probability of Default (PD)</strong> estimates the likelihood that a borrower will default on their loan obligations within a specified time frame. It forms a critical component of the Expected Loss equation:
+    </p>
+    <pre>Expected Loss (EL) = PD × EAD × LGD</pre>
+    <p>
+      This project builds a PD model using Lending Club loan data and applies robust data preprocessing including WOE transformation, dummy handling, and feature engineering.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>⚙️ Section 1: Data Processing</h2>
+
+    <h3>Step 1: Loading and Understanding the Data</h3>
+    <pre><code># Load data
+import pandas as pd
+loan_data = pd.read_csv('loan_data_2007_2014.csv')
+loan_data.head()</code></pre>
+
+    <h3>Step 2: Missing Value Handling</h3>
+    <p>
+      We begin by identifying and treating missing values. For example, columns like <code>emp_length</code> and <code>mths_since_last_delinq</code> had many missing values.
+    </p>
+    <!-- You can replace the placeholder below with your exact code -->
+    <pre><code># Example placeholder
+loan_data['emp_length'].fillna('0 years', inplace=True)</code></pre>
+
+    <h3>Step 3: WOE Binning and Transformation</h3>
+    <p>
+      To maintain the predictive power and monotonicity of categorical features, we apply Weight of Evidence (WOE) binning. This is especially useful for logistic regression models.
+    </p>
+    <pre><code># Placeholder: Replace with your WOE binning function
+# Example:
+import pandas.api.types as ptypes
+
+# WOE transformation logic here...
+</code></pre>
+
+    <h3>Step 4: Combining Dummy Variables</h3>
+    <p>
+      Dummy variables were grouped or combined to reduce dimensionality and avoid multicollinearity.
+    </p>
+    <pre><code># Placeholder: Replace with your actual dummy merging logic
+# Example:
+loan_data = pd.get_dummies(loan_data, drop_first=True)</code></pre>
+
+    <h3>Step 5: Final Train-Test Split</h3>
+    <pre><code>from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(inputs, targets, test_size=0.2, random_state=42)</code></pre>
+  </div>
