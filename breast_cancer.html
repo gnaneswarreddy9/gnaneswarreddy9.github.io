@@ -98,3 +98,43 @@ print("Selected Features:", selected)
 
 </body>
 </html>
+<h2>🔁 Feature Selection: RFECV</h2>
+<p>
+RFECV (Recursive Feature Elimination with Cross-Validation) recursively removes the least important features based on model coefficients, while using cross-validation to select the optimal number of features.
+</p>
+
+<p>We used it with logistic regression to balance accuracy and feature count.</p>
+
+<pre><code>
+from sklearn.feature_selection import RFECV
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold
+
+model = LogisticRegression(max_iter=5000)
+rfecv = RFECV(estimator=model, cv=StratifiedKFold(5), scoring='accuracy')
+rfecv.fit(X_train_scaled, y_train)
+
+selected = X.columns[rfecv.support_]
+print("Optimal Features:", selected)
+</code></pre>
+
+<p><strong>🧠 Selected Features (14 total):</strong></p>
+<ul>
+  <li>mean radius</li>
+  <li>mean area</li>
+  <li>mean concave points</li>
+  <li>radius error</li>
+  <li>area error</li>
+  <li>compactness error</li>
+  <li>worst radius</li>
+  <li>worst texture</li>
+  <li>worst perimeter</li>
+  <li>worst area</li>
+  <li>worst smoothness</li>
+  <li>worst concavity</li>
+  <li>worst concave points</li>
+  <li>worst symmetry</li>
+</ul>
+
+<p><strong>🎯 Model Accuracy:</strong> 97.9%</p>
+<p>RFECV helped reduce the model to <strong>14 highly relevant features</strong> while maintaining high accuracy. It’s a great technique when you want model-driven, validated feature reduction.</p>
