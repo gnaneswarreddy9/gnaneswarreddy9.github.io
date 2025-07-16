@@ -44,117 +44,100 @@
 
 <a href="../../../index.html" class="button">⬅ Back to Home</a>
 
-<h1>PD Model: Preprocessing and Feature Engineering</h1>
+<h1>🧮 PD Model: Preprocessing and Feature Engineering</h1>
+<p><strong>Credit Risk Modeling | Logistic Regression | Feature Engineering | WoE Binning</strong></p>
 
 <h2>1. Project Overview</h2>
 <p>
-  This project is part of a larger <strong>Credit Risk Modeling</strong> framework, specifically focusing on the <strong>Probability of Default (PD)</strong> component.
-  We use LendingClub's public loan dataset from <strong>2007–2014</strong> available on Kaggle. The aim of this phase is to engineer and transform raw variables into a model-ready format for a <strong>Logistic Regression</strong> classifier.
+  In this project, we prepare data for building a <strong>Probability of Default (PD)</strong> model — a critical component of credit risk modeling. The objective is to estimate the likelihood of a loan defaulting. We focus here solely on <strong>preprocessing</strong> and <strong>feature engineering</strong>, which form the foundation for building robust and interpretable models, especially in regulated domains.
+</p>
+<p>
+  The model used for PD is <strong>Logistic Regression</strong>, which assumes a linear relationship between independent variables and the log-odds of the dependent variable.
+</p>
+<ul>
+  <li><strong>Dependent Variable:</strong> <code>loan_data_targets_train</code> – 1 = Good (non-default), 0 = Bad (default)</li>
+  <li><strong>Independent Variables:</strong> Selected via fine/coarse classing, WoE binning, dummy creation, and domain rules.</li>
+</ul>
+<p>
+  Data Source: Kaggle Lending Club dataset (2007–2014)
 </p>
 
-<h2>2. Expected Loss Overview</h2>
-<p>
-  In credit risk, <strong>Expected Loss (EL)</strong> is calculated using the formula:
-  <br><strong>EL = PD × LGD × EAD</strong>
-  <br>Where:
-  <ul>
-    <li><strong>PD:</strong> Probability of Default</li>
-    <li><strong>LGD:</strong> Loss Given Default</li>
-    <li><strong>EAD:</strong> Exposure At Default</li>
-  </ul>
-  This project covers only the <strong>PD model</strong>. For LGD and EAD, we use logistic and linear models respectively, in separate projects.
-</p>
+<h2>2. What is Expected Loss?</h2>
+<p><strong>Expected Loss (EL) = PD × LGD × EAD</strong></p>
+<ul>
+  <li><strong>PD:</strong> Probability that a borrower will default</li>
+  <li><strong>LGD:</strong> Loss Given Default</li>
+  <li><strong>EAD:</strong> Exposure at Default</li>
+</ul>
+<p>This project focuses on the PD component.</p>
 
-<h2>3. Target Variable</h2>
-<p>
-  We define the dependent variable as a binary outcome:
-  <br><code>1 = Good Loan (Non-Default)</code>, <code>0 = Bad Loan (Default)</code>
-</p>
+<h2>3. Splitting the Data</h2>
+<p>We split our dataset into train and test:</p>
+<ul>
+  <li><strong>Training Inputs:</strong> loan_data_inputs_train</li>
+  <li><strong>Training Targets:</strong> loan_data_targets_train</li>
+  <li><strong>Test Inputs:</strong> loan_data_inputs_test</li>
+  <li><strong>Test Targets:</strong> loan_data_targets_test</li>
+</ul>
+<pre><code>loan_data_inputs_train.to_csv('loan_data_inputs_train.csv')
+loan_data_targets_train.to_csv('loan_data_targets_train.csv')
+loan_data_inputs_test.to_csv('loan_data_inputs_test.csv')
+loan_data_targets_test.to_csv('loan_data_targets_test.csv')</code></pre>
+<p><em>Note: All preprocessing was applied on training data only.</em></p>
 
 <h2>4. Preprocessing and Feature Engineering</h2>
 
-<h3>4.1 Train-Test Split</h3>
-<p>
-  We split the cleaned and preprocessed data into 80% training and 20% testing:
-</p>
-<pre><code>from sklearn.model_selection import train_test_split
+<h3>4.1 Dummy Variable Creation</h3>
+<pre><code>df_inputs_prepr['term:36'] = np.where(df_inputs_prepr['term'] == '36 months', 1, 0)
+df_inputs_prepr['term:60'] = np.where(df_inputs_prepr['term'] == '60 months', 1, 0)</code></pre>
+<p>Used for: grade, home_ownership, term, verification_status, etc.</p>
 
-loan_data_inputs_train, loan_data_inputs_test, \
-loan_data_targets_train, loan_data_targets_test = train_test_split(
-    df_inputs_prepr, df_targets_prepr, test_size=0.2, random_state=0)
-</code></pre>
-
-<h3>4.2 Understanding Variables</h3>
+<h3>4.2 Handling Continuous Variables</h3>
 <ul>
-  <li><strong>Independent Variables:</strong> Predictors used to model PD. Includes both discrete and continuous types.</li>
-  <li><strong>Dependent Variable:</strong> The PD target as defined above.</li>
-  <li><strong>Discrete Variables:</strong> Categorical columns such as <code>grade</code>, <code>term</code>, <code>purpose</code>, etc.</li>
-  <li><strong>Continuous Variables:</strong> e.g., <code>int_rate</code>, <code>annual_inc</code>, <code>dti</code>.</li>
+  <li><strong>Fine Classing:</strong> e.g., splitting int_rate into 50 bins using <code>pd.cut()</code></li>
+  <li><strong>WoE Binning:</strong> Creating grouped bins based on monotonic WoE values</li>
+  <li><strong>Domain Logic:</strong> Custom bin definitions based on business understanding</li>
 </ul>
 
-<h3>4.3 Data Transformation Steps</h3>
+<h3>4.3 What is WoE?</h3>
+<pre><code>WoE = ln(Distribution of Good / Distribution of Bad)</code></pre>
 <ul>
-  <li><strong>Dummy Variable Creation:</strong> We created binary variables for multi-class fields like grade, term, etc.</li>
-  <li><strong>Fine & Coarse Classing:</strong> Continuous variables were split using <code>pd.cut()</code> into multiple bins.</li>
-  <li><strong>Missing Value Handling:</strong> e.g., <code>mths_since_last_delinq</code> and <code>mths_since_last_record</code> used 'Missing' as a separate category.</li>
-  <li><strong>Monotonicity Checks:</strong> Bins were redefined if WoE trends were not monotonic (important for logistic regression).</li>
-  <li><strong>WoE Transformation:</strong> Each bin or dummy was encoded using Weight of Evidence.</li>
+  <li>Aligns with logistic regression (log-odds)</li>
+  <li>Ensures linearity and interpretability</li>
+  <li>Reduces noise from rare categories</li>
 </ul>
 
-<h3>4.4 Weight of Evidence (WoE)</h3>
-<p>
-  WoE is a key transformation technique in credit scoring, particularly suited for logistic regression. It maps values into log-odds:
-</p>
-<pre><code>WoE = ln(% of Good / % of Bad)</code></pre>
-<p>
-  It also helps with:
-  <ul>
-    <li>Handling outliers</li>
-    <li>Improving interpretability</li>
-    <li>Making features linearly related to the log-odds of the dependent variable</li>
-  </ul>
-</p>
+<h3>4.4 Missing Value Handling</h3>
+<pre><code>df_inputs_prepr['mths_since_last_delinq:Missing'] = np.where(df_inputs_prepr['mths_since_last_delinq'].isnull(), 1, 0)</code></pre>
+<p>We added indicator variables for missing categories where appropriate.</p>
 
-<h3>4.5 WoE Plots</h3>
-<p>
-  Below are sample WoE plots (using test data) for three key variables. These help us select and group features for modeling:
-</p>
+<h3>4.5 Fine & Coarse Classing with WoE</h3>
+<pre><code># Fine classing
+pd.cut(df_inputs_prepr['int_rate'], 50)
 
-<h4>Interest Rate (Test Data)</h4>
-<img src="woe_int_rate_test.png" alt="WoE for Interest Rate">
+# Coarse binning example
+df_inputs_prepr['int_rate:12.0-15.7'] = np.where((df_inputs_prepr['int_rate'] > 12.0) &
+                                                (df_inputs_prepr['int_rate'] <= 15.7), 1, 0)</code></pre>
+<p>Grouping bins to preserve monotonic WoE trends.</p>
 
-<h4>Annual Income (Test Data)</h4>
-<img src="woe_annual_inc_test.png" alt="WoE for Annual Income">
+<h3>4.6 Visual WoE Insights</h3>
+<p>WoE plots were generated to evaluate relationships and validate transformations.</p>
+<img src="woe_int_rate_test.png" alt="WoE plot for Interest Rate">
+<img src="woe_annual_inc_test.png" alt="WoE plot for Annual Income">
+<img src="woe_dti_test.png" alt="WoE plot for DTI">
 
-<h4>Debt-to-Income Ratio (Test Data)</h4>
-<img src="woe_dti_test.png" alt="WoE for DTI">
-
-<h2>5. Final Selected Variables</h2>
-<p>
-  Based on the WoE values, business logic, domain insights, and monotonicity checks, the following features were retained:
-</p>
+<h3>4.7 Final Feature Set</h3>
+<p>We selected ~110 variables using statistical and domain filters. These include:</p>
 <ul>
-  <li>Grade A–G</li>
-  <li>Home Ownership & Term</li>
-  <li>State Groupings (e.g., <code>addr_state:CA</code>, <code>addr_state:TX</code>, etc.)</li>
-  <li>Purpose Categories (merged into business, credit card, etc.)</li>
-  <li>Employment Length groups</li>
-  <li>Binned versions of:
-    <ul>
-      <li><code>int_rate</code></li>
-      <li><code>annual_inc</code></li>
-      <li><code>dti</code></li>
-      <li><code>total_acc</code></li>
-      <li><code>open_acc</code></li>
-      <li><code>pub_rec</code></li>
-      <li><code>mths_since_issue_d</code>, <code>mths_since_last_delinq</code>, <code>mths_since_last_record</code></li>
-    </ul>
-  </li>
+  <li>Dummies for all categorical fields</li>
+  <li>Binned continuous variables</li>
+  <li>Missing indicators (e.g., "mths_since_last_delinq:Missing")</li>
+  <li>Variables showing strong and interpretable WoE trends</li>
 </ul>
 
-<h2>6. Conclusion</h2>
+<h2>✅ Summary</h2>
 <p>
-  This stage completed all data preparation and feature engineering required for our PD model using logistic regression. The next project will cover model building and evaluation using these transformed features.
+  This project highlights the depth and discipline in preparing data for PD modeling. From binning to WoE transformation, every step was validated using plots, monotonicity, and business rules to ensure the resulting dataset is <strong>robust, interpretable, and logistic regression-ready</strong>.
 </p>
 
 </body>
