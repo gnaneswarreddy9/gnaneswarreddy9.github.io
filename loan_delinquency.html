@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loan Delinquency Simulation | Gnaneswar Reddy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 40px;
+      color: #333;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1, h2, h3 {
+      color: #0056b3;
+    }
+    a {
+      color: #0d6efd;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    section {
+      background: white;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e9f0ff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏦 Loan Delinquency Simulation Project</h1>
+  
+  <section>
+    <h2>Project Overview</h2>
+    <p>This project focuses on generating <strong>realistic synthetic loan data</strong> using Python and the Faker library to simulate loan issuance, payment behavior, and delinquency patterns. The data mimics real-world relationships between credit score, income, loan amount, interest rate, and repayment behavior.</p>
+    <p>The goal is to analyze loan delinquency trends, explore key risk factors, and create a foundation for credit risk modeling and portfolio management.</p>
+  </section>
+
+  <section>
+    <h2>Data Description</h2>
+    <p>The dataset contains <strong>1,000 synthetic loan records</strong> with the following key columns:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Column</th><th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>loan_id</td><td>Unique loan identifier</td></tr>
+        <tr><td>customer_name</td><td>Borrower's name (synthetic)</td></tr>
+        <tr><td>credit_score</td><td>Borrower's credit score (300–850)</td></tr>
+        <tr><td>annual_income</td><td>Borrower's annual income</td></tr>
+        <tr><td>loan_term</td><td>Loan duration in months</td></tr>
+        <tr><td>loan_start_date</td><td>Loan issuance date</td></tr>
+        <tr><td>loan_amount</td><td>Principal loan amount</td></tr>
+        <tr><td>interest_rate</td><td>Annual interest rate (%) based on credit score and term</td></tr>
+        <tr><td>loan_end_date</td><td>Projected loan maturity date</td></tr>
+        <tr><td>payment_month_1 ... payment_month_12</td><td>Monthly payment timeliness flags (True if late)</td></tr>
+        <tr><td>num_late_payments</td><td>Total number of late payments</td></tr>
+        <tr><td>is_delinquent</td><td>Binary flag indicating delinquency status</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Key Analysis Results</h2>
+    <ul>
+      <li><strong>Total loans:</strong> 1,000</li>
+      <li><strong>Total loan amount:</strong> $XX,XXX,XXX (replace with your sum)</li>
+      <li><strong>Average loan amount:</strong> $XX,XXX (replace with your mean)</li>
+      <li><strong>Average interest rate:</strong> XX.XX%</li>
+      <li><strong>Average credit score:</strong> XXX</li>
+      <li><strong>Delinquency rate:</strong> XX.XX%</li>
+      <li><strong>Correlation between credit score and interest rate:</strong> 0.XX</li>
+      <li><strong>Correlation between income and loan amount:</strong> 0.XX</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Exploratory Visualizations</h2>
+    <p>The following plots provide visual insights into the loan portfolio and delinquency patterns:</p>
+    <!-- Replace src with your saved image filenames -->
+    <img src="loan_amount_distribution.png" alt="Loan Amount Distribution" />
+    <img src="credit_vs_interest.png" alt="Credit Score vs Interest Rate" />
+    <img src="loan_term_distribution.png" alt="Loan Term Distribution" />
+    <img src="delinquency_by_credit_score.png" alt="Delinquency Rate by Credit Score Range" />
+    <img src="avg_loan_by_income.png" alt="Average Loan Amount by Income Range" />
+    <img src="correlation_heatmap.png" alt="Correlation Heatmap" />
+    <img src="income_vs_loan_amount.png" alt="Income vs Loan Amount" />
+    <img src="late_payments_distribution.png" alt="Distribution of Late Payments" />
+  </section>
+
+  <section>
+    <h2>Insights & Next Steps</h2>
+    <ul>
+      <li>Delinquency strongly correlates with lower credit scores and higher EMI-to-income ratios.</li>
+      <li>Loan amount and income show a positive relationship, supporting realistic lending behavior.</li>
+      <li>Future work includes building a predictive model for delinquency risk and creating monthly delinquency snapshots.</li>
+      <li>Opportunity to integrate with a credit bureau model for enhanced risk scoring.</li>
+    </ul>
+  </section>
+
+  <p><a href="index.html">← Back to Home</a></p>
+
+</body>
+</html>
