@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PD Model: Preprocessing and Feature Engineering</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: #333;
+    }
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    .button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <a href="../../../index.html" class="button">⬅ Back to Home</a>
+  <h1>PD Model: Preprocessing and Feature Engineering</h1>
+
+  <h2>1. Project Overview</h2>
+  <p>This project focuses on the data preprocessing and feature engineering steps used in a <strong>Probability of Default (PD)</strong> model. The dataset used is from <strong>Kaggle (LendingClub 2007–2014)</strong>, and our goal is to prepare the data in a form suitable for <strong>Logistic Regression</strong> modeling.</p>
+
+  <h2>2. Why Preprocessing & Feature Engineering?</h2>
+  <p>To make raw data suitable for predictive modeling, we clean, group, and transform variables. We handle missing values, encode categorical variables, bin continuous variables, and transform them using <strong>Weight of Evidence (WoE)</strong> — which is ideal for Logistic Regression.</p>
+
+  <h2>3. Target Variable</h2>
+  <p>We define the target as binary: <code>1 = Good Loan</code>, <code>0 = Default (Bad)</code>.</p>
+
+  <h2>4. Steps in Feature Engineering</h2>
+
+  <h3>4.1 Train-Test Split</h3>
+  <p>We split the data into 80% train and 20% test sets.</p>
+  <pre><code>from sklearn.model_selection import train_test_split
+
+loan_data_inputs_train, loan_data_inputs_test, \
+loan_data_targets_train, loan_data_targets_test = train_test_split(
+    df_inputs_prepr, df_targets_prepr, test_size=0.2, random_state=0)</code></pre>
+
+  <h3>4.2 Grouping and Handling Variables</h3>
+  <ul>
+    <li><strong>Dummy variables:</strong> Categorical variables like grade, term, home_ownership were one-hot encoded.</li>
+    <li><strong>Continuous variables:</strong> Such as <code>int_rate</code>, <code>annual_inc</code>, and <code>dti</code> were binned using <code>pd.cut()</code> for fine and coarse classing.</li>
+    <li><strong>Missing data:</strong> e.g., <code>mths_since_last_delinq</code> treated using a separate category 'Missing'.</li>
+    <li><strong>Monotonicity:</strong> Bins were adjusted to ensure monotonic WoE trends where applicable.</li>
+    <li><strong>WoE encoding:</strong> WoE is calculated as:<br>
+      <code>WoE = ln(% of good in group / % of bad in group)</code>
+    </li>
+    <li><strong>Purpose of WoE:</strong> Helps transform variables to linear scale for logistic regression, and removes multicollinearity.</li>
+  </ul>
+
+  <h3>4.3 Visualizing WoE</h3>
+  <p>We plotted WoE for selected features. Below are examples from test data.</p>
+
+  <h4>Interest Rate (Test Data)</h4>
+  <img src="woe_int_rate_test.png" alt="WoE plot for Interest Rate">
+
+  <h4>Annual Income (Test Data)</h4>
+  <img src="woe_annual_inc_test.png" alt="WoE plot for Annual Income">
+
+  <h4>Debt-to-Income (Test Data)</h4>
+  <img src="woe_dti_test.png" alt="WoE plot for DTI">
+
+  <h2>5. Selected Variables for PD Modeling</h2>
+  <p>We finalized a list of variables after thorough analysis, binning, WoE visualization, and domain understanding. These include:</p>
+  <ul>
+    <li>Grade (A to G), Term, Purpose, Verification Status</li>
+    <li>Region-based groupings of <code>addr_state</code></li>
+    <li>Grouped bins for <code>int_rate</code>, <code>annual_inc</code>, <code>dti</code></li>
+    <li>Recency variables: <code>mths_since_last_delinq</code>, <code>mths_since_last_record</code></li>
+    <li>Account-level variables: <code>open_acc</code>, <code>pub_rec</code>, <code>total_acc</code>, etc.</li>
+  </ul>
+
+  <h2>6. Next Step</h2>
+  <p>This concludes the preprocessing phase. The next project will focus on building the PD model using the selected features and logistic regression.</p>
+
+</body>
+</html>
