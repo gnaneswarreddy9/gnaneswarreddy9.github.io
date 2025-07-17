@@ -1,98 +1,83 @@
-<section style="padding: 40px; background-color: #f9f9f9; font-family: Arial, sans-serif;">
-  <h1 style="font-size: 32px; color: #2c3e50;">Step 1: Introduction and Business Context</h1>
+<section style="font-family: Arial, sans-serif; padding: 40px; background-color: #f8f9fa;">
+  <h2>🔹 Step 1: Introduction and Business Context</h2>
 
-  <h2 style="color: #2980b9;">🎯 Objective of the Project</h2>
-  <p>
-    This project simulates a realistic loan portfolio and borrower behavior to study <strong>loan delinquency</strong>.
-    Using synthetic data generated with the <code>Faker</code> library and logical rules, we replicate how different borrower profiles
-    influence missed payments. The simulation lays the foundation for risk modeling and credit behavior analysis in banking.
-  </p>
+  <h3>🎯 Objective of the Project</h3>
+  <p>This project simulates a realistic loan portfolio and borrower behavior to study loan delinquency. Using synthetic data generated with statistical logic and the Faker library, we model how different borrower profiles influence the likelihood of missed payments. The simulation serves as a foundation for building risk models and analyzing credit behavior in the banking domain.</p>
 
-  <h2 style="color: #2980b9;">🏦 Business Context: Why Loan Delinquency Matters</h2>
-  <p>
-    In lending institutions, understanding borrower repayment behavior is crucial to managing credit risk.
-    One early signal of potential loan default is <strong>delinquency</strong>, where a borrower misses one or more payments.
-    Banks closely monitor delinquency to:
-  </p>
+  <h3>🏦 Business Context: Why Loan Delinquency Matters</h3>
+  <p>In banking and lending institutions, understanding borrower behavior is critical to managing credit risk. One key indicator of borrower risk is loan delinquency — when a borrower misses scheduled payments.</p>
+  <p>A delinquent loan refers to a loan where the borrower has missed one or more payments, but the loan hasn’t yet defaulted.</p>
+  <p>Delinquency is an early warning signal of potential default.</p>
+  <p>Banks and lenders use delinquency metrics to:</p>
   <ul>
     <li>Adjust credit policies</li>
-    <li>Launch early intervention and recovery efforts</li>
-    <li>Update credit scoring and decision models</li>
-    <li>Estimate capital requirements for loss provisioning</li>
+    <li>Refine credit scoring models</li>
+    <li>Launch early intervention strategies (e.g., calls, repayment plans)</li>
+    <li>Manage capital provisioning (reserving money for potential losses)</li>
+    <li>Optimize collections and recovery processes</li>
   </ul>
 
-  <h2 style="color: #2980b9;">🧠 What is Delinquency?</h2>
-  <p>
-    A loan is considered <strong>delinquent</strong> when the borrower fails to pay on the due date. It is typically categorized into risk buckets:
-  </p>
+  <h3>🧠 What is Delinquency?</h3>
+  <p>A loan becomes delinquent when the borrower fails to pay on the scheduled date.</p>
+  <p>Delinquency is typically measured in buckets:</p>
   <ul>
     <li>0–30 days: Mild delinquency</li>
     <li>31–60 days: Moderate risk</li>
-    <li>61–90+ days: Severe risk / likely default</li>
+    <li>61–90+ days: Severe risk or default likely</li>
   </ul>
-  <p>
-    In this simulation, any loan with at least one missed payment is considered delinquent.
-  </p>
+  <p>In this simulation, we define delinquency as any loan with at least one missed payment over the observed period.</p>
 
-  <h2 style="color: #2980b9;">📉 What Causes Delinquency?</h2>
+  <h3>📉 What Causes Delinquency?</h3>
   <ul>
-    <li>Low credit scores or poor credit history</li>
-    <li>High debt burden compared to income</li>
-    <li>Unforeseen events (job loss, emergencies)</li>
-    <li>Rising interest rates increasing EMIs</li>
-    <li>Lack of repayment discipline</li>
+    <li>Low credit score or poor credit history</li>
+    <li>Over-borrowing relative to income</li>
+    <li>High interest rates increasing EMI burden</li>
+    <li>Job loss, emergencies, or economic downturns</li>
+    <li>Lack of financial discipline</li>
   </ul>
 
-  <h2 style="color: #2980b9;">🧩 How This Project Helps</h2>
-  <p>This simulation enables:</p>
+  <h3>🧩 How This Project Helps</h3>
+  <p>This simulation provides a sandbox for analyzing delinquency behavior and supports:</p>
+
+  <strong>Credit Risk Modeling:</strong>
   <ul>
-    <li>Development of <strong>credit risk models</strong> like Probability of Default (PD)</li>
-    <li>Customer segmentation and risk targeting</li>
-    <li>What-if simulations for credit policy changes</li>
-    <li>Portfolio monitoring dashboards and alerts</li>
+    <li>Use the simulated dataset to build Probability of Default (PD) models.</li>
+    <li>Train logistic regression or XGBoost classifiers to predict delinquency.</li>
   </ul>
 
-  <h2 style="color: #2980b9;">🔍 Future Extensions</h2>
+  <strong>Segmentation & Targeting:</strong>
   <ul>
-    <li>Build full EL (Expected Loss) components: PD, LGD, and EAD</li>
-    <li>Simulate economic scenarios (e.g., inflation impact)</li>
-    <li>Track transition states (Current → 30 DPD → 60 DPD → Default)</li>
-    <li>Develop early warning systems based on behavior trends</li>
+    <li>Segment customers based on income, score, and loan characteristics.</li>
+    <li>Identify high-risk borrower groups.</li>
   </ul>
 
-  <h2 style="color: #2980b9;">📦 Summary</h2>
-  <table style="width: 100%; border-collapse: collapse;">
-    <thead>
-      <tr style="background-color: #dfe6e9;">
-        <th style="padding: 10px; border: 1px solid #ccc;">Key Term</th>
-        <th style="padding: 10px; border: 1px solid #ccc;">Meaning</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ccc;">Delinquency</td>
-        <td style="padding: 10px; border: 1px solid #ccc;">Missing a scheduled loan payment</td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ccc;">DPD Buckets</td>
-        <td style="padding: 10px; border: 1px solid #ccc;">Days Past Due (e.g., 30 DPD = 30 days late)</td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ccc;">Default</td>
-        <td style="padding: 10px; border: 1px solid #ccc;">No repayment; loan considered unrecoverable</td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ccc;">Credit Score</td>
-        <td style="padding: 10px; border: 1px solid #ccc;">A number measuring borrower creditworthiness</td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ccc;">Loan Term</td>
-        <td style="padding: 10px; border: 1px solid #ccc;">Total repayment duration in months</td>
-      </tr>
-      <tr>
-        <td style="padding: 10px; border: 1px solid #ccc;">Interest Rate</td>
-        <td style="padding: 10px; border: 1px solid #ccc;">The cost of borrowing, usually risk-based</td>
-      </tr>
-    </tbody>
+  <strong>Policy Testing:</strong>
+  <ul>
+    <li>Simulate what happens if credit policies change (e.g., stricter loan limits for low-score borrowers).</li>
+  </ul>
+
+  <strong>Portfolio Monitoring:</strong>
+  <ul>
+    <li>Use the generated data to test dashboards and delinquency trackers for operational use.</li>
+  </ul>
+
+  <h3>🔍 Future Extensions</h3>
+  <p>Once this simulation is complete, we can extend it to:</p>
+  <ul>
+    <li>Model Credit Risk KPIs: PD (Probability of Default), LGD (Loss Given Default), and EAD (Exposure at Default).</li>
+    <li>Run scenario analysis: e.g., “What happens if inflation rises and incomes fall?”</li>
+    <li>Track borrower transitions: From “current” → “30 DPD” → “60 DPD” → “default”.</li>
+    <li>Build early warning systems: Use payment behavior and score changes to predict delinquencies.</li>
+  </ul>
+
+  <h3>📦 Summary</h3>
+  <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; background-color: white;">
+    <tr><th>Key Term</th><th>Meaning</th></tr>
+    <tr><td>Delinquency</td><td>Missing a scheduled loan payment</td></tr>
+    <tr><td>DPD Buckets</td><td>Days Past Due (e.g., 30 DPD = 30 days late)</td></tr>
+    <tr><td>Default</td><td>When the borrower stops paying entirely</td></tr>
+    <tr><td>Credit Score</td><td>A numerical measure of a borrower’s creditworthiness</td></tr>
+    <tr><td>Loan Term</td><td>Number of months for which the loan is taken</td></tr>
+    <tr><td>Interest Rate</td><td>Cost of borrowing; usually based on credit risk</td></tr>
   </table>
 </section>
