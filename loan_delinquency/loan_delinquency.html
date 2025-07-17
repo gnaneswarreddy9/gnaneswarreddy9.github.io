@@ -1,119 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loan Delinquency Simulation | Gnaneswar Reddy</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      padding: 40px;
-      color: #333;
-      max-width: 900px;
-      margin: auto;
-    }
-    h1, h2, h3 {
-      color: #0056b3;
-    }
-    a {
-      color: #0d6efd;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    section {
-      background: white;
-      border-radius: 8px;
-      padding: 25px;
-      margin-bottom: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    img {
-      max-width: 100%;
-      border-radius: 8px;
-      margin: 15px 0;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 15px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px 12px;
-      text-align: left;
-    }
-    th {
-      background-color: #e9f0ff;
-    }
-  </style>
-</head>
-<body>
+<section style="padding: 40px; background-color: #f9f9f9; font-family: Arial, sans-serif;">
+  <h1 style="font-size: 32px; color: #2c3e50;">Step 1: Introduction and Business Context</h1>
 
-  <h1>🏦 Loan Delinquency Simulation Project</h1>
-  
-  <section>
-    <h2>Project Overview</h2>
-    <p>This project focuses on generating <strong>realistic synthetic loan data</strong> using Python and the Faker library to simulate loan issuance, payment behavior, and delinquency patterns. The data mimics real-world relationships between credit score, income, loan amount, interest rate, and repayment behavior.</p>
-    <p>The goal is to analyze loan delinquency trends, explore key risk factors, and create a foundation for credit risk modeling and portfolio management.</p>
-  </section>
+  <h2 style="color: #2980b9;">🎯 Objective of the Project</h2>
+  <p>
+    This project simulates a realistic loan portfolio and borrower behavior to study <strong>loan delinquency</strong>.
+    Using synthetic data generated with the <code>Faker</code> library and logical rules, we replicate how different borrower profiles
+    influence missed payments. The simulation lays the foundation for risk modeling and credit behavior analysis in banking.
+  </p>
 
-  <section>
-    <h2>Key Analysis Results</h2>
-    <ul>
-      <li><strong>Total loans:</strong> 100,000</li>
-      <li><strong>Total loan amount:</strong> $2,035,606,946.00</li>
-      <li><strong>Average loan amount:</strong> $20,356.07</li>
-      <li><strong>Average interest rate:</strong> 7.37%</li>
-      <li><strong>Average credit score:</strong> 696.69</li>
-      <li><strong>Delinquency rate:</strong> 71.55%</li>
-      <li><strong>Credit Score vs Interest Rate correlation:</strong> -0.9651</li>
-      <li><strong>Income vs Loan Amount correlation:</strong> 0.9250</li>
-    </ul>
+  <h2 style="color: #2980b9;">🏦 Business Context: Why Loan Delinquency Matters</h2>
+  <p>
+    In lending institutions, understanding borrower repayment behavior is crucial to managing credit risk.
+    One early signal of potential loan default is <strong>delinquency</strong>, where a borrower misses one or more payments.
+    Banks closely monitor delinquency to:
+  </p>
+  <ul>
+    <li>Adjust credit policies</li>
+    <li>Launch early intervention and recovery efforts</li>
+    <li>Update credit scoring and decision models</li>
+    <li>Estimate capital requirements for loss provisioning</li>
+  </ul>
 
-    <h3>📊 Loans by Term</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Loan Term (Months)</th><th>Loan Count</th><th>Total Amount</th><th>Average Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>12</td><td>9,930</td><td>$202,951,093</td><td>$20,438.18</td></tr>
-        <tr><td>24</td><td>20,106</td><td>$407,499,716</td><td>$20,267.57</td></tr>
-        <tr><td>36</td><td>40,029</td><td>$814,674,379</td><td>$20,352.10</td></tr>
-        <tr><td>48</td><td>20,044</td><td>$409,656,514</td><td>$20,437.86</td></tr>
-        <tr><td>60</td><td>9,891</td><td>$200,825,244</td><td>$20,303.84</td></tr>
-      </tbody>
-    </table>
-  </section>
+  <h2 style="color: #2980b9;">🧠 What is Delinquency?</h2>
+  <p>
+    A loan is considered <strong>delinquent</strong> when the borrower fails to pay on the due date. It is typically categorized into risk buckets:
+  </p>
+  <ul>
+    <li>0–30 days: Mild delinquency</li>
+    <li>31–60 days: Moderate risk</li>
+    <li>61–90+ days: Severe risk / likely default</li>
+  </ul>
+  <p>
+    In this simulation, any loan with at least one missed payment is considered delinquent.
+  </p>
 
-  <section>
-    <h2>Visualizations</h2>
-    <p>The following charts were generated from the simulated data.</p>
+  <h2 style="color: #2980b9;">📉 What Causes Delinquency?</h2>
+  <ul>
+    <li>Low credit scores or poor credit history</li>
+    <li>High debt burden compared to income</li>
+    <li>Unforeseen events (job loss, emergencies)</li>
+    <li>Rising interest rates increasing EMIs</li>
+    <li>Lack of repayment discipline</li>
+  </ul>
 
-    <img src="loan_amount_distribution.png" alt="Loan Amount Distribution" />
-    <img src="credit_vs_interest.png" alt="Credit Score vs Interest Rate" />
-    <img src="loan_term_distribution.png" alt="Loan Term Distribution" />
-    <img src="delinquency_by_credit_score.png" alt="Delinquency Rate by Credit Score Range" />
-    <img src="avg_loan_by_income.png" alt="Average Loan Amount by Income Range" />
-    <img src="correlation_heatmap.png" alt="Correlation Heatmap" />
-    <img src="income_vs_loan_amount.png" alt="Income vs Loan Amount" />
-    <img src="late_payments_distribution.png" alt="Late Payments Distribution" />
-  </section>
+  <h2 style="color: #2980b9;">🧩 How This Project Helps</h2>
+  <p>This simulation enables:</p>
+  <ul>
+    <li>Development of <strong>credit risk models</strong> like Probability of Default (PD)</li>
+    <li>Customer segmentation and risk targeting</li>
+    <li>What-if simulations for credit policy changes</li>
+    <li>Portfolio monitoring dashboards and alerts</li>
+  </ul>
 
-  <section>
-    <h2>Next Steps</h2>
-    <ul>
-      <li>Use this data to train models (Logistic Regression, XGBoost) to predict delinquency.</li>
-      <li>Try feature selection techniques to improve prediction power.</li>
-      <li>Incorporate explainability (e.g., SHAP) in future versions.</li>
-    </ul>
-  </section>
+  <h2 style="color: #2980b9;">🔍 Future Extensions</h2>
+  <ul>
+    <li>Build full EL (Expected Loss) components: PD, LGD, and EAD</li>
+    <li>Simulate economic scenarios (e.g., inflation impact)</li>
+    <li>Track transition states (Current → 30 DPD → 60 DPD → Default)</li>
+    <li>Develop early warning systems based on behavior trends</li>
+  </ul>
 
-  <p><a href="../index.html">← Back to Home</a></p>
-
-</body>
-</html>
+  <h2 style="color: #2980b9;">📦 Summary</h2>
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #dfe6e9;">
+        <th style="padding: 10px; border: 1px solid #ccc;">Key Term</th>
+        <th style="padding: 10px; border: 1px solid #ccc;">Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ccc;">Delinquency</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">Missing a scheduled loan payment</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ccc;">DPD Buckets</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">Days Past Due (e.g., 30 DPD = 30 days late)</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ccc;">Default</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">No repayment; loan considered unrecoverable</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ccc;">Credit Score</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">A number measuring borrower creditworthiness</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ccc;">Loan Term</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">Total repayment duration in months</td>
+      </tr>
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ccc;">Interest Rate</td>
+        <td style="padding: 10px; border: 1px solid #ccc;">The cost of borrowing, usually risk-based</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
