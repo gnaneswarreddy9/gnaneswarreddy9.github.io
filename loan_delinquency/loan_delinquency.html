@@ -223,6 +223,126 @@
       </table>
     </div>
     <!-- 🔷 STEP 1: END -->
+    <!-- ----------------------------------------------- -->
+<!-- STEP 2: Data Generation Using Faker and Statistical Logic -->
+<!-- ----------------------------------------------- -->
+<div class="section">
+  <!-- Title -->
+  <div class="section-title">🔹 Data Generation Using Faker and Statistical Logic</div>
+  
+  <!-- Objective -->
+  <div class="section-content">
+    <p><strong>🎯 Objective of This Step</strong><br>
+    To create a realistic dataset representing loan accounts and borrower behavior over time. The dataset simulates various features relevant to loan delinquency modeling, such as borrower income, credit score, loan amount, and payment patterns.</p>
+
+    <!-- Data Simulation Approach -->
+    <p><strong>🛠️ Data Simulation Approach</strong><br>
+    We use the Faker library to generate synthetic data, ensuring that the values resemble real-world distributions. Beyond just generating random data, we apply statistical logic and domain knowledge to craft a dataset that mimics actual borrower behavior.</p>
+
+    <!-- Borrower Profile Features -->
+    <p><strong>👤 Borrower Profile Features</strong><br>
+    Each loan account in the dataset includes the following borrower-level attributes:</p>
+    <ul>
+      <li><strong>Customer ID:</strong> Unique identifier for each borrower.</li>
+      <li><strong>Income:</strong> Monthly income, simulated with a log-normal distribution.</li>
+      <li><strong>Credit Score:</strong> Assigned using a custom logic to reflect realistic credit distributions (ranges from 300 to 850).</li>
+      <li><strong>Loan Amount:</strong> Simulated based on income, ensuring proportional borrowing.</li>
+      <li><strong>Loan Term:</strong> Typically 12, 24, or 36 months.</li>
+      <li><strong>Interest Rate:</strong> Varies inversely with credit score to reflect risk-based pricing.</li>
+      <li><strong>EMI (Equated Monthly Installment):</strong> Calculated based on loan amount, term, and interest.</li>
+      <li><strong>Start Date:</strong> Loan initiation month.</li>
+      <li><strong>Demographic Variables:</strong> Age, employment type, region, etc.</li>
+    </ul>
+
+    <!-- Monthly Grid Creation -->
+    <p><strong>📆 Monthly Grid Creation</strong><br>
+    We simulate a month-by-month view for each borrower using an exploded grid:</p>
+    <p>For each month, we track:</p>
+    <ul>
+      <li>Payment Status (Paid/Missed)</li>
+      <li>DPD (Days Past Due) Bucket</li>
+      <li>Outstanding Balance</li>
+    </ul>
+    <p>Payment behavior is linked to:</p>
+    <ul>
+      <li>Credit score</li>
+      <li>Income-to-EMI ratio</li>
+      <li>Random shocks (e.g., job loss simulation)</li>
+    </ul>
+
+    <!-- Missed Payment Simulation Logic -->
+    <p><strong>⚙️ Missed Payment Simulation Logic</strong><br>
+    We define rules to simulate delinquency:</p>
+    <ul>
+      <li>Borrowers with low credit scores or tight income-to-EMI ratios have higher chances of missing payments.</li>
+      <li>Payment status is assigned using probabilistic thresholds:
+        <ul>
+          <li>High score + high income → ~95% chance of on-time payment</li>
+          <li>Low score + high EMI → ~40–70% chance of delay or miss</li>
+        </ul>
+      </li>
+      <li>Missed payments accumulate into DPD buckets.</li>
+    </ul>
+
+    <!-- Delinquency Flag Definition -->
+    <p><strong>📊 Delinquency Flag Definition</strong><br>
+    A borrower is considered delinquent if any monthly record shows a missed payment or DPD > 0.</p>
+    <p>This label is used for training and evaluating models later.</p>
+
+    <!-- Example Simulation Rule -->
+    <p><strong>🔍 Example Simulation Rule</strong><br>
+    If a borrower has:</p>
+    <ul>
+      <li>Income: ₹25,000</li>
+      <li>EMI: ₹15,000</li>
+      <li>Credit Score: 520</li>
+    </ul>
+    <p>Then the chance of missing payment = 60% each month. If 3 consecutive months are missed → borrower enters 60+ DPD bucket.</p>
+
+    <!-- Why This Matters -->
+    <p><strong>🧪 Why This Matters</strong><br>
+    Instead of a flat dataset, this time series simulation adds realism:</p>
+    <ul>
+      <li>Enables transition tracking (from current → 30 DPD → 60 DPD → default)</li>
+      <li>Allows testing of credit policies and scoring models under realistic conditions</li>
+      <li>Sets the stage for predictive modeling in upcoming steps</li>
+    </ul>
+  </div>
+
+  <!-- Summary Table -->
+  <div class="table-box">
+    <table>
+      <tr>
+        <th>Feature</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Income</td>
+        <td>Log-normal distribution (₹10K–₹100K)</td>
+      </tr>
+      <tr>
+        <td>Credit Score</td>
+        <td>300–850 with bell-shaped logic</td>
+      </tr>
+      <tr>
+        <td>EMI</td>
+        <td>Based on interest, loan term, and amount</td>
+      </tr>
+      <tr>
+        <td>Monthly Grid</td>
+        <td>Tracks payment status, DPD</td>
+      </tr>
+      <tr>
+        <td>Delinquency</td>
+        <td>Flag set if borrower misses at least 1 payment</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<!-- ----------------------------------------------- -->
+<!-- END OF STEP 2 -->
+<!-- ----------------------------------------------- -->
+
     
   </div> <!-- End of .container -->
 
