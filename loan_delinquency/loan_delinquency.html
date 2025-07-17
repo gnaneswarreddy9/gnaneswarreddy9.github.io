@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Loan Delinquency | Gnaneswar Reddy</title>
+
+  <!-- 🔧 CSS Styling Section -->
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -107,17 +109,23 @@
 </head>
 <body>
 
+  <!-- 🔗 Link to Home Page -->
   <a href="/index.html" class="home-link">← Home</a>
+
+  <!-- 🧾 Main Page Header -->
   <header>Loan Delinquency</header>
 
   <div class="container">
 
+    <!-- 🔷 STEP 1: START - Introduction and Business Context -->
     <div class="section">
       <div class="emoji-title">🔹 Step 1: Introduction and Business Context</div>
 
+      <!-- 🎯 Objective -->
       <h3>🎯 Objective of the Project</h3>
       <p>This project simulates a realistic loan portfolio and borrower behavior to study loan delinquency. Using synthetic data generated with statistical logic and the Faker library, we model how different borrower profiles influence the likelihood of missed payments. The simulation serves as a foundation for building risk models and analyzing credit behavior in the banking domain.</p>
 
+      <!-- 🏦 Business Context -->
       <h3>🏦 Business Context: Why Loan Delinquency Matters</h3>
       <p>In banking and lending institutions, understanding borrower behavior is critical to managing credit risk. One key indicator of borrower risk is loan delinquency — when a borrower misses scheduled payments.</p>
 
@@ -133,6 +141,7 @@
         <li>Optimize collections and recovery processes</li>
       </ul>
 
+      <!-- 🧠 Definition -->
       <h3>🧠 What is Delinquency?</h3>
       <p>A loan becomes delinquent when the borrower fails to pay on the scheduled date.</p>
 
@@ -145,6 +154,7 @@
 
       <p>In this simulation, we define delinquency as any loan with at least one missed payment over the observed period.</p>
 
+      <!-- 📉 Causes -->
       <h3>📉 What Causes Delinquency?</h3>
       <ul>
         <li>Low credit score or poor credit history</li>
@@ -154,9 +164,9 @@
         <li>Lack of financial discipline</li>
       </ul>
 
+      <!-- 🧩 Project Use -->
       <h3>🧩 How This Project Helps</h3>
       <p>This simulation provides a sandbox for analyzing delinquency behavior and supports:</p>
-
       <ul>
         <li><span class="highlight">Credit Risk Modeling:</span><br>
           Use the simulated dataset to build Probability of Default (PD) models.<br>
@@ -170,6 +180,7 @@
           Use the generated data to test dashboards and delinquency trackers for operational use.</li>
       </ul>
 
+      <!-- 🔍 Future Extensions -->
       <h3>🔍 Future Extensions</h3>
       <ul>
         <li>Model Credit Risk KPIs: PD (Probability of Default), LGD (Loss Given Default), and EAD (Exposure at Default)</li>
@@ -178,6 +189,7 @@
         <li>Build early warning systems: Use payment behavior and score changes to predict delinquencies</li>
       </ul>
 
+      <!-- 📦 Summary Table -->
       <h3>📦 Summary</h3>
       <table class="summary-table">
         <tr>
@@ -210,113 +222,9 @@
         </tr>
       </table>
     </div>
-
-  </div>
-<section class="section">
-  <div class="emoji-title">🔹 Step 2: Data Generation Using Faker and Statistical Logic</div>
-
-  <h3>🎯 Objective of This Step</h3>
-  <p>To create a realistic dataset representing loan accounts and borrower behavior over time. The dataset simulates various features relevant to loan delinquency modeling, such as borrower income, credit score, loan amount, and payment patterns.</p>
-
-  <h3>🛠️ Data Simulation Approach</h3>
-  <p>We use the Faker library to generate synthetic data, ensuring that the values resemble real-world distributions. Beyond just generating random data, we apply statistical logic and domain knowledge to craft a dataset that mimics actual borrower behavior.</p>
-
-  <h3>👤 Borrower Profile Features</h3>
-  <ul>
-    <li><span class="highlight">Customer ID:</span> Unique identifier for each borrower.</li>
-    <li><span class="highlight">Income:</span> Monthly income, simulated with a log-normal distribution.</li>
-    <li><span class="highlight">Credit Score:</span> Assigned using custom logic to reflect realistic credit distributions (300–850).</li>
-    <li><span class="highlight">Loan Amount:</span> Simulated based on income, ensuring proportional borrowing.</li>
-    <li><span class="highlight">Loan Term:</span> Typically 12, 24, or 36 months.</li>
-    <li><span class="highlight">Interest Rate:</span> Varies inversely with credit score to reflect risk-based pricing.</li>
-    <li><span class="highlight">EMI:</span> Calculated based on loan amount, term, and interest.</li>
-    <li><span class="highlight">Start Date:</span> Loan initiation month.</li>
-    <li><span class="highlight">Demographics:</span> Age, employment type, region, etc.</li>
-  </ul>
-
-  <h3>📆 Monthly Grid Creation</h3>
-  <p>We simulate a month-by-month view for each borrower using an exploded grid:</p>
-  <ul>
-    <li><span class="highlight">Monthly tracking includes:</span>
-      <ul>
-        <li>Payment Status (Paid/Missed)</li>
-        <li>DPD (Days Past Due) Bucket</li>
-        <li>Outstanding Balance</li>
-      </ul>
-    </li>
-    <li><span class="highlight">Behavior influenced by:</span>
-      <ul>
-        <li>Credit score</li>
-        <li>Income-to-EMI ratio</li>
-        <li>Random shocks (e.g., job loss)</li>
-      </ul>
-    </li>
-  </ul>
-
-  <h3>⚙️ Missed Payment Simulation Logic</h3>
-  <ul>
-    <li>Borrowers with low credit scores or high EMI-to-income ratios are more likely to miss payments.</li>
-    <li>Payment status is assigned using probabilistic rules:
-      <ul>
-        <li>High score + high income → ~95% chance of on-time payment</li>
-        <li>Low score + high EMI → ~40–70% chance of delay or miss</li>
-      </ul>
-    </li>
-    <li>Missed payments roll into DPD buckets over time.</li>
-  </ul>
-
-  <h3>📊 Delinquency Flag Definition</h3>
-  <p>A borrower is considered <span class="highlight">delinquent</span> if any monthly record shows a missed payment or DPD > 0. This label is used for training and evaluating models.</p>
-
-  <h3>🔍 Example Simulation Rule</h3>
-  <p>If a borrower has:</p>
-  <ul>
-    <li><strong>Income:</strong> ₹25,000</li>
-    <li><strong>EMI:</strong> ₹15,000</li>
-    <li><strong>Credit Score:</strong> 520</li>
-  </ul>
-  <p>Then the chance of missing payment = 60% each month. If 3 consecutive months are missed → borrower enters 60+ DPD bucket.</p>
-
-  <h3>🧪 Why This Matters</h3>
-  <ul>
-    <li>Enables tracking transitions: current → 30 DPD → 60 DPD → default</li>
-    <li>Allows credit policy and scoring model testing under realistic behavior</li>
-    <li>Forms the basis for predictive modeling in the next steps</li>
-  </ul>
-
-  <h3>📦 Summary of Simulation Features</h3>
-  <table class="summary-table">
-    <thead>
-      <tr>
-        <th>Feature</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Income</td>
-        <td>Log-normal distribution (₹10K–₹100K)</td>
-      </tr>
-      <tr>
-        <td>Credit Score</td>
-        <td>300–850, realistic distribution</td>
-      </tr>
-      <tr>
-        <td>EMI</td>
-        <td>Based on loan amount, interest, and term</td>
-      </tr>
-      <tr>
-        <td>Monthly Grid</td>
-        <td>Tracks payment behavior over time</td>
-      </tr>
-      <tr>
-        <td>Delinquency</td>
-        <td>Flag if any missed payment occurs</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+    <!-- 🔷 STEP 1: END -->
+    
+  </div> <!-- End of .container -->
 
 </body>
 </html>
-
