@@ -215,3 +215,150 @@
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Delinquency | Gnaneswar Reddy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f8f9fa;
+      line-height: 1.6;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 32px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #2c3e50;
+      font-size: 24px;
+      margin-top: 30px;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    ul {
+      margin-top: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f1f1;
+    }
+    .note {
+      font-style: italic;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Loan Delinquency</h1>
+
+    <h2>🔹 Simulating Borrower and Payment Data</h2>
+    <div class="section">
+      We generate borrower-level monthly data for 24 months (2022–2023), simulating salary, EMI obligations, and monthly payments. This serves as our base behavioral dataset.
+    </div>
+
+    <h2>🔹 Features in Our Dataset</h2>
+    <div class="section">
+      The dataset includes the following key variables:
+      <ul>
+        <li><strong>customer_id</strong>: Unique identifier for the borrower</li>
+        <li><strong>month</strong>: Year-month of observation</li>
+        <li><strong>monthly_salary</strong>: Simulated monthly salary</li>
+        <li><strong>monthly_emi</strong>: Simulated EMI burden</li>
+        <li><strong>paid_emi</strong>: Actual amount paid by the customer</li>
+        <li><strong>dpd</strong>: Days past due (calculated if full EMI is not paid)</li>
+        <li><strong>bucket</strong>: Categorization of delinquency: Current, 30+, 60+, 90+, Write-off</li>
+      </ul>
+    </div>
+
+    <h2>🔹 Business Logic for Simulation</h2>
+    <div class="section">
+      <ul>
+        <li>Borrowers are assigned EMI based on a percentage of their salary, typically 30–40%.</li>
+        <li>We randomly introduce missed or partial payments for certain months based on defined risk probabilities.</li>
+        <li>If EMI paid is less than due, we calculate a DPD and move customers to delinquency buckets.</li>
+        <li>Once a borrower enters delinquency, future months carry forward the overdue unless repaid.</li>
+      </ul>
+    </div>
+
+    <h2>🔹 Sample Dataset Snapshot</h2>
+    <div class="section">
+      <table>
+        <thead>
+          <tr>
+            <th>customer_id</th>
+            <th>month</th>
+            <th>monthly_salary</th>
+            <th>monthly_emi</th>
+            <th>paid_emi</th>
+            <th>dpd</th>
+            <th>bucket</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>C001</td>
+            <td>2022-01</td>
+            <td>₹65,000</td>
+            <td>₹20,000</td>
+            <td>₹20,000</td>
+            <td>0</td>
+            <td>Current</td>
+          </tr>
+          <tr>
+            <td>C001</td>
+            <td>2022-02</td>
+            <td>₹65,000</td>
+            <td>₹20,000</td>
+            <td>₹0</td>
+            <td>30</td>
+            <td>30+</td>
+          </tr>
+          <tr>
+            <td>C001</td>
+            <td>2022-03</td>
+            <td>₹65,000</td>
+            <td>₹20,000</td>
+            <td>₹0</td>
+            <td>60</td>
+            <td>60+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>🔹 Practical Relevance</h2>
+    <div class="section">
+      This simulation lays the foundation for understanding borrower risk. Financial institutions use similar monthly grids to track delinquency behavior, assess risk scores, and trigger recovery strategies.
+    </div>
+  </div>
+</body>
+</html>
+
