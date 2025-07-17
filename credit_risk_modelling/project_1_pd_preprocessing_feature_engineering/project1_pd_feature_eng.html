@@ -2,46 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PD Model: Preprocessing & Feature Engineering | Gnaneswar Reddy</title>
+  <title>Credit Risk Modeling – PD Preprocessing & Feature Engineering</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       line-height: 1.6;
       padding: 40px;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    h1, h2 {
+      background-color: #f8f9fa;
       color: #2c3e50;
     }
-    pre {
-      background: #efefef;
-      padding: 10px;
-      overflow-x: auto;
+    h1, h2, h3 {
+      color: #1a237e;
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 30px;
     }
-    table, th, td {
-      border: 1px solid #ccc;
-    }
     th, td {
+      border: 1px solid #ccc;
       padding: 10px;
       text-align: center;
     }
+    pre {
+      background-color: #eeeeee;
+      padding: 10px;
+      overflow-x: auto;
+    }
     .nav-button {
       display: inline-block;
-      margin-bottom: 20px;
+      margin: 10px 0;
       padding: 10px 15px;
-      background-color: #3498db;
+      background-color: #1565c0;
       color: white;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 6px;
     }
     .nav-button:hover {
-      background-color: #2c80b4;
+      background-color: #0d47a1;
     }
   </style>
 </head>
@@ -49,117 +47,86 @@
 
 <a class="nav-button" href="/credit_risk_modelling/index.html">⬅ Back to Home</a>
 
-<h1>PD Model: Preprocessing and Feature Engineering</h1>
+<h1>Credit Risk Modeling – PD Model: Preprocessing and Feature Engineering</h1>
 
-<h2>1. Business Motivation</h2>
-<p>
-Credit risk modeling is a core component of banking. Financial institutions must assess the risk of default before offering loans. The <strong>Probability of Default (PD)</strong> model predicts how likely a borrower is to default, helping banks reduce losses, assign interest rates, and meet regulatory expectations (e.g., Basel norms).
-</p>
-
-<h2>2. Definitions of Risk Components</h2>
+<h2>1. Business Context & Objective</h2>
+<p>In lending, banks face the risk of customers defaulting on loans. A Probability of Default (PD) model helps assess how likely each customer is to default. By identifying risky applicants early, banks can make better lending decisions, adjust interest rates, and comply with regulatory norms (e.g., Basel II/III).</p>
+<p><strong>Expected Loss</strong> is calculated as:</p>
 <ul>
-  <li><strong>PD (Probability of Default)</strong>: Likelihood that a borrower fails to repay.</li>
-  <li><strong>LGD (Loss Given Default)</strong>: Amount of money lost if the borrower defaults.</li>
-  <li><strong>EAD (Exposure at Default)</strong>: Total value at risk when the borrower defaults.</li>
-  <li><strong>Expected Loss</strong> = PD × LGD × EAD</li>
+  <li><strong>PD</strong> × <strong>LGD</strong> × <strong>EAD</strong></li>
 </ul>
 
-<h2>3. Understanding Variable Types</h2>
-<ul>
-  <li><strong>Dependent Variable</strong>: The target (e.g., default: 1 or 0).</li>
-  <li><strong>Independent Variables</strong>: Predictors like income, age, balance, etc.</li>
-  <li><strong>Continuous Variables</strong>: Income, interest rate, utilization — handled via binning, WoE, standardization.</li>
-  <li><strong>Discrete/Categorical Variables</strong>: Grade, occupation — handled via dummy encoding, WoE if ordered.</li>
-</ul>
-
-<h3>Preprocessing Strategy</h3>
-<p>For continuous variables, we explored:</p>
-<ul>
-  <li>Manual and automated binning</li>
-  <li>Monotonicity checks</li>
-  <li>Weight of Evidence (WoE) transformation</li>
-</ul>
-
-<pre><code># Example: WoE calculation snippet
-woe = np.log((prop_good + 1e-6) / (prop_bad + 1e-6))
-</code></pre>
-
-<h2>4. Why Use WoE & IV?</h2>
-<p>
-Weight of Evidence (WoE) provides a monotonic and interpretable transformation of categorical/continuous variables. It shows the predictive power of each bin or category. It's preferred for logistic regression because it aligns better with linearity assumptions.
-</p>
-
-<h3>Benefits:</h3>
-<ul>
-  <li>Interpretability: Shows clear risk segmentation</li>
-  <li>Handles missing and rare categories better</li>
-  <li>Supports variable selection using IV (Information Value)</li>
-</ul>
-
-<h2>5. Sample WoE Table</h2>
-
+<h2>2. What is Credit Risk?</h2>
 <table>
   <thead>
-    <tr>
-      <th>Bin</th>
-      <th>n_obs</th>
-      <th>n_good</th>
-      <th>n_bad</th>
-      <th>prop_n_good</th>
-      <th>prop_n_bad</th>
-      <th>WoE</th>
-    </tr>
+    <tr><th>Term</th><th>Description</th></tr>
   </thead>
   <tbody>
-    <tr>
-      <td>A</td>
-      <td>59759</td>
-      <td>57431</td>
-      <td>2328</td>
-      <td>0.172855</td>
-      <td>0.057090</td>
-      <td>1.105</td>
-    </tr>
-    <tr>
-      <td>B</td>
-      <td>109730</td>
-      <td>101063</td>
-      <td>8667</td>
-      <td>0.304178</td>
-      <td>0.212541</td>
-      <td>0.370</td>
-    </tr>
-    <tr>
-      <td>...</td>
-      <td colspan="6">Other grades follow similar logic</td>
-    </tr>
+    <tr><td>PD (Probability of Default)</td><td>Likelihood a borrower fails to repay within a set period</td></tr>
+    <tr><td>LGD (Loss Given Default)</td><td>Percentage of the exposure that is lost if borrower defaults</td></tr>
+    <tr><td>EAD (Exposure at Default)</td><td>Total amount the bank is exposed to at time of default</td></tr>
+    <tr><td>Expected Loss</td><td>PD × LGD × EAD</td></tr>
   </tbody>
 </table>
 
-<h3>How Each Column is Calculated:</h3>
+<h2>3. Why Feature Engineering Matters</h2>
 <ul>
-  <li><strong>n_obs</strong>: Total observations in that bin</li>
-  <li><strong>n_good</strong>: Count of non-defaults</li>
-  <li><strong>n_bad</strong>: Count of defaults</li>
-  <li><strong>prop_n_good</strong>: n_good / total_good</li>
-  <li><strong>prop_n_bad</strong>: n_bad / total_bad</li>
+  <li>Improve model performance</li>
+  <li>Ensure interpretability and regulatory acceptance</li>
+  <li>Handle missing/skewed values</li>
+  <li>Support monotonic relationships for scorecards</li>
+</ul>
+
+<h2>4. Introduction to WoE & IV</h2>
+<p><strong>Weight of Evidence (WoE)</strong> compares the distribution of good (non-default) vs. bad (default) customers across bins.</p>
+<p><strong>Information Value (IV)</strong> measures the predictive power of a variable.</p>
+<p><strong>WoE Formula:</strong> WoE = ln(% good / % bad)</p>
+<p><strong>IV Formula:</strong> IV = (prop_good - prop_bad) × WoE</p>
+
+<h3>📊 WoE Table Example</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Grade</th><th>n_obs</th><th>prop_n_obs</th><th>n_good</th><th>n_bad</th><th>prop_n_good</th><th>prop_n_bad</th><th>WoE</th><th>IV</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>A</td><td>59,759</td><td>0.1602</td><td>57,431</td><td>2,328</td><td>0.1729</td><td>0.0571</td><td>1.107</td><td>0.128</td></tr>
+    <tr><td>G</td><td>2,654</td><td>0.0071</td><td>1,932</td><td>722</td><td>0.0058</td><td>0.0177</td><td>-1.095</td><td>0.013</td></tr>
+  </tbody>
+</table>
+
+<h3>Explanation of Columns</h3>
+<ul>
+  <li><strong>n_obs</strong>: Total observations in bin</li>
+  <li><strong>prop_n_obs</strong>: Proportion of all records in that bin</li>
+  <li><strong>n_good</strong> / <strong>n_bad</strong>: Count of good/bad customers</li>
+  <li><strong>prop_n_good</strong>: n_good / total_goods</li>
+  <li><strong>prop_n_bad</strong>: n_bad / total_bads</li>
   <li><strong>WoE</strong>: ln(prop_n_good / prop_n_bad)</li>
+  <li><strong>IV</strong>: (prop_n_good - prop_n_bad) × WoE</li>
 </ul>
 
-<h2>6. Factors Influencing Default</h2>
-<p>
-Several real-world factors influence the probability of default:
-</p>
+<h2>5. What Influences PD?</h2>
 <ul>
-  <li><strong>Customer-level</strong>: Job loss, spending behavior, credit card usage</li>
-  <li><strong>Macroeconomic</strong>: Inflation, interest rate hikes, recession</li>
-  <li><strong>Policy-related</strong>: Regulatory changes, taxation</li>
+  <li><strong>Customer Behavior</strong>: Credit history, utilization, missed payments</li>
+  <li><strong>Loan Characteristics</strong>: Interest rate, term, secured vs. unsecured</li>
+  <li><strong>Macroeconomic Conditions</strong>: Inflation, job market, interest rates</li>
+  <li><strong>Events</strong>: COVID, war, natural disasters</li>
 </ul>
 
-<h2>7. Final Goals</h2>
-<p>
-The ultimate goal is to build a clean, reliable PD model using interpretable and regulatory-accepted transformations. By focusing on WoE and meaningful binning, we can deliver a scorecard-ready model suitable for deployment in real banking scenarios.
-</p>
+<h2>6. Feature Engineering Summary</h2>
+<ul>
+  <li>Handled missing values via imputation and flagging</li>
+  <li>Created dummy variables for categorical features</li>
+  <li>Applied fine & coarse binning to continuous variables</li>
+  <li>Calculated WoE and IV for variable selection</li>
+  <li>Selected variables based on predictive power and business logic</li>
+  <li>Ensured monotonicity for logistic regression compatibility</li>
+</ul>
+
+<h2>7. Data Used</h2>
+<p>We used saved CSVs to load pre-cleaned training and testing datasets. This ensures reproducibility and allows fast iteration in modeling.</p>
 
 <a class="nav-button" href="/credit_risk_modelling/index.html">⬅ Back to Home</a>
 
