@@ -291,6 +291,62 @@
     </table>
   </div>
   <!-- 📍 End of Step 2 Block -->
+  <!-- 📦 Design Block: Step 3 Content Section -->
+  <div class="section">
+    <span class="badge">🔹 Tagging Borrower Delinquency Statuses</span>
+
+    <h2>🎯 Objective of This Step</h2>
+    <p>In this step, we assign a <strong>delinquency status</strong> to each borrower for every month based on their payment history. These statuses simulate real-world borrower risk progression and are essential for modeling and analysis.</p>
+
+    <h2>📌 Why Tagging Matters</h2>
+    <p>Instead of just labeling whether a borrower paid or not, we simulate how borrowers move through different stages of delinquency over time. This provides richer behavior patterns for modeling credit risk and borrower lifecycle events.</p>
+
+    <h2>📊 Status Definitions</h2>
+    <ul>
+      <li><strong>Current</strong> – The borrower has made all payments up to that month (0 missed payments).</li>
+      <li><strong>30 DPD</strong> – The borrower has missed one monthly payment (30 days past due).</li>
+      <li><strong>60 DPD</strong> – The borrower has missed two consecutive payments.</li>
+      <li><strong>90+ DPD / Default</strong> – The borrower has missed three or more consecutive payments. This is considered as defaulted.</li>
+    </ul>
+    <p>Once a borrower enters <strong>Default</strong>, they remain in that state permanently for the simulation, regardless of future payments.</p>
+
+    <h2>⚙️ Tagging Logic</h2>
+    <p>To determine the delinquency status, we calculate a <strong>Days Past Due (DPD)</strong> metric for every borrower-month using the following logic:</p>
+    <ul>
+      <li>DPD = 0 → Status = Current</li>
+      <li>DPD ≥ 30 and &lt; 60 → Status = 30 DPD</li>
+      <li>DPD ≥ 60 and &lt; 90 → Status = 60 DPD</li>
+      <li>DPD ≥ 90 → Status = Default</li>
+    </ul>
+    <p>Once a borrower reaches Default, all following months remain Default regardless of future payments. This mimics how many institutions treat defaulted loans — no reversion unless restructured or written off (not modeled here).</p>
+
+    <h2>🔄 Transition Behavior</h2>
+    <p>Borrowers transition through risk states as they miss consecutive payments. For example:</p>
+    <p><em>Current → 30 DPD → 60 DPD → Default</em></p>
+    <p>This logic reflects credit risk escalation in real portfolios. We maintain the history of past payment behavior so the model can learn how risk accumulates.</p>
+
+    <h2>🧪 Example</h2>
+    <p><strong>Jan</strong>: Paid → Status: Current</p>
+    <p><strong>Feb</strong>: Missed → Status: 30 DPD</p>
+    <p><strong>Mar</strong>: Missed again → Status: 60 DPD</p>
+    <p><strong>Apr</strong>: Missed again → Status: Default</p>
+    <p><strong>May</strong>: Paid → Still remains in Default</p>
+    <p>Even though the borrower paid in May, the status doesn't reset, highlighting that risk accumulation is sticky in delinquency modeling.</p>
+
+    <h2>📦 Final Output Structure</h2>
+    <p>After tagging, our dataset now includes for every borrower-month:</p>
+    <ul>
+      <li>Borrower ID</li>
+      <li>Calendar Month</li>
+      <li>Actual Payment Indicator</li>
+      <li>Calculated DPD</li>
+      <li>Final Delinquency Status Label</li>
+    </ul>
+    <p>This tagged status is the foundation for our downstream modeling (e.g., predicting who will default next month).</p>
+  </div>
+  <!-- 📍 End of Step 3 Block -->
+
+  <!-- 🚧 Placeholder: Future sections like Step 4 will be inserted below this comment in the same design -->
 
 
 </body>
