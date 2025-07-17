@@ -347,105 +347,87 @@
   <!-- 📍 End of Step 3 Block -->
 
   <!-- 🚧 Placeholder: Future sections like Step 4 will be inserted below this comment in the same design -->
-<!-- ===================== START: MODELING BORROWER DEFAULT RISK ===================== -->
-<section class="bg-white p-6 rounded-xl shadow-md mb-8 border border-gray-200">
-  <h2 class="text-2xl font-bold text-blue-900 mb-4">🔍 Modeling Borrower Default Risk</h2>
+<!-- ======================= STEP 4 START ======================= -->
+<section class="section">
+  <h2>🔍 Modeling Borrower Default Risk</h2>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">🎯 Objective of This Step</h3>
-  <p class="text-gray-700 mb-4">
-    Now that we have monthly borrower behavior data and delinquency statuses, the goal is to train a model to <strong>predict which borrowers are likely to default in the upcoming months</strong>. This is the core of credit risk modeling and simulates how lenders make proactive decisions.
-  </p>
+  <h3>🎯 Objective of This Step</h3>
+  <p>Now that we have monthly borrower behavior data and delinquency statuses, the goal is to train a model to predict which borrowers are likely to default in the upcoming months. This is the core of credit risk modeling and simulates how lenders make proactive decisions.</p>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">📌 Target Variable</h3>
-  <p class="text-gray-700 mb-4">
-    The target variable for our model is:
-    <br><br>
-    <strong>Default in Next Month (Yes/No)</strong><br>
-    This binary variable is created by shifting the “Default” status one month forward for each borrower.
-    If a borrower defaults in March, their label in February will be <code>1</code> (positive), indicating default is coming. All other months are labeled <code>0</code>.
-    <br><br>
-    This setup ensures the model learns to recognize <strong>early signals</strong> of rising risk before actual default happens.
-  </p>
+  <h3>📌 Target Variable</h3>
+  <p>The target variable for our model is:</p>
+  <ul>
+    <li><strong>Default in Next Month (Yes/No)</strong></li>
+  </ul>
+  <p>This binary variable is created by shifting the “Default” status one month forward for each borrower. If a borrower defaults in March, their label in February will be 1 (positive), indicating default is coming. All other months are labeled 0.</p>
+  <p>This setup ensures the model learns to recognize early signals of rising risk before actual default happens.</p>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">🧠 Predictive Features</h3>
-  <p class="text-gray-700 mb-4">
-    We use features from the current and past behavior of each borrower to train our model. Example features include:
-    <ul class="list-disc list-inside ml-4">
-      <li>Number of missed payments in the past 3 months</li>
-      <li>Previous month's delinquency status</li>
-      <li>Count of months since first delinquency</li>
-      <li>Whether the borrower has ever been 30 or 60 DPD before</li>
-      <li>Rolling average of recent payment activity</li>
-    </ul>
-    These features capture both short-term and long-term risk patterns.
-  </p>
+  <h3>🧠 Predictive Features</h3>
+  <p>We use features from the current and past behavior of each borrower to train our model. Example features include:</p>
+  <ul>
+    <li>Number of missed payments in the past 3 months</li>
+    <li>Previous month's delinquency status</li>
+    <li>Count of months since first delinquency</li>
+    <li>Whether the borrower has ever been 30 or 60 DPD before</li>
+    <li>Rolling average of recent payment activity</li>
+  </ul>
+  <p>These features capture both short-term and long-term risk patterns.</p>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">🔄 Feature Engineering Logic</h3>
-  <p class="text-gray-700 mb-4">
-    We perform transformations to create predictive features:
-    <ul class="list-disc list-inside ml-4">
-      <li>Rolling windows (e.g., number of missed payments in last 2–3 months)</li>
-      <li>Flag variables (e.g., ever reached 60 DPD)</li>
-      <li>Cumulative default indicators</li>
-      <li>One-hot encoding of current status (Current, 30 DPD, 60 DPD)</li>
-    </ul>
-    Each transformation adds temporal depth and mimics how banks track customer deterioration over time.
-  </p>
+  <h3>🔄 Feature Engineering Logic</h3>
+  <p>We perform transformations to create predictive features:</p>
+  <ul>
+    <li>Rolling windows (e.g., number of missed payments in last 2–3 months)</li>
+    <li>Flag variables (e.g., ever reached 60 DPD)</li>
+    <li>Cumulative default indicators</li>
+    <li>One-hot encoding of current status (Current, 30 DPD, 60 DPD)</li>
+  </ul>
+  <p>Each transformation adds temporal depth and mimics how banks track customer deterioration over time.</p>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">⚙️ Model Setup</h3>
-  <p class="text-gray-700 mb-4">
-    We use a <strong>logistic regression model</strong> for interpretability and simplicity, though this setup can easily be extended to decision trees or ensemble models later.
-    <ul class="list-disc list-inside ml-4">
-      <li><strong>Target:</strong> Will borrower default next month? (<code>1</code> or <code>0</code>)</li>
-      <li><strong>Inputs:</strong> Engineered features described above</li>
-      <li><strong>Training Data:</strong> Borrower-month records before the month of prediction</li>
-      <li><strong>Evaluation:</strong> Standard train/test split, accuracy, precision, recall, and ROC AUC</li>
-    </ul>
-  </p>
+  <h3>⚙️ Model Setup</h3>
+  <p>We use a logistic regression model for interpretability and simplicity, though this setup can easily be extended to decision trees or ensemble models later.</p>
+  <ul>
+    <li><strong>Target:</strong> Will borrower default next month? (1 or 0)</li>
+    <li><strong>Inputs:</strong> Engineered features described above</li>
+    <li><strong>Training Data:</strong> Borrower-month records before the month of prediction</li>
+    <li><strong>Evaluation:</strong> Standard train/test split, accuracy, precision, recall, and ROC AUC</li>
+  </ul>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">✅ Interpreting Model Output</h3>
-  <p class="text-gray-700 mb-4">
-    Logistic regression will return a <strong>probability score</strong> (between 0 and 1) for each borrower-month.
-    <br><br>
-    We set a classification threshold (e.g., 0.5 or adjusted via ROC curve) to assign:
-    <ul class="list-disc list-inside ml-4">
-      <li><strong>Default risk = High</strong> → If predicted probability ≥ threshold</li>
-      <li><strong>Default risk = Low</strong> → Otherwise</li>
-    </ul>
-    This output can help simulate risk segmentation:
-    <ul class="list-disc list-inside ml-4">
-      <li>Flag borrowers for early intervention</li>
-      <li>Compare model predictions vs actual defaults</li>
-      <li>Calibrate policies like grace periods or risk-based pricing</li>
-    </ul>
-  </p>
+  <h3>✅ Interpreting Model Output</h3>
+  <p>Logistic regression will return a probability score (between 0 and 1) for each borrower-month.</p>
+  <p>We set a classification threshold (e.g., 0.5 or adjusted via ROC curve) to assign:</p>
+  <ul>
+    <li><strong>Default risk = High</strong> → If predicted probability ≥ threshold</li>
+    <li><strong>Default risk = Low</strong> → Otherwise</li>
+  </ul>
+  <p>This output can help simulate risk segmentation:</p>
+  <ul>
+    <li>Flag borrowers for early intervention</li>
+    <li>Compare model predictions vs actual defaults</li>
+    <li>Calibrate policies like grace periods or risk-based pricing</li>
+  </ul>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">🧪 Example Scenario</h3>
-  <p class="text-gray-700 mb-4">
-    If a borrower has:
-    <ul class="list-disc list-inside ml-4">
-      <li>Missed payments in Jan and Feb</li>
-      <li>Is currently in 60 DPD</li>
-      <li>Was Current 3 months ago</li>
-    </ul>
-    Then the model may assign a <strong>0.82 probability</strong> of default in March.
-    <br><br>
-    This allows early flagging before default occurs, mimicking real-world risk strategies.
-  </p>
+  <h3>🧪 Example Scenario</h3>
+  <p>If a borrower has:</p>
+  <ul>
+    <li>Missed payments in Jan and Feb</li>
+    <li>Is currently in 60 DPD</li>
+    <li>Was Current 3 months ago</li>
+  </ul>
+  <p>Then the model may assign a 0.82 probability of default in March.</p>
+  <p>This allows early flagging before default occurs, mimicking real-world risk strategies.</p>
 
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">🧾 Final Modeling Output</h3>
-  <p class="text-gray-700">
-    The final dataset includes:
-    <ul class="list-disc list-inside ml-4">
-      <li>All original borrower-month data</li>
-      <li>Engineered features</li>
-      <li>Predicted default probability</li>
-      <li>Final model prediction (1 = predicted to default next month)</li>
-    </ul>
-    This output can be used for strategy simulation, dashboarding, or model evaluation.
-  </p>
+  <h3>🧾 Final Modeling Output</h3>
+  <p>The final dataset includes:</p>
+  <ul>
+    <li>All original borrower-month data</li>
+    <li>Engineered features</li>
+    <li>Predicted default probability</li>
+    <li>Final model prediction (1 = predicted to default next month)</li>
+  </ul>
+  <p>This output can be used for strategy simulation, dashboarding, or model evaluation.</p>
 </section>
-<!-- ===================== END: MODELING BORROWER DEFAULT RISK ===================== -->
+<!-- ======================= STEP 4 END ======================= -->
+
 
 
 </body>
