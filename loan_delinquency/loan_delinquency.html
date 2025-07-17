@@ -216,149 +216,92 @@
 </body>
 </html>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Loan Delinquency | Gnaneswar Reddy</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      background-color: #f8f9fa;
-      line-height: 1.6;
-    }
-    .container {
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 1000px;
-      margin: auto;
-    }
-    h1 {
-      color: #2c3e50;
-      font-size: 32px;
-      margin-bottom: 10px;
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 10px;
-    }
-    h2 {
-      color: #2c3e50;
-      font-size: 24px;
-      margin-top: 30px;
-    }
-    .section {
-      margin-top: 20px;
-    }
-    ul {
-      margin-top: 10px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 15px;
-    }
-    table, th, td {
-      border: 1px solid #ccc;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #f1f1f1;
-    }
-    .note {
-      font-style: italic;
-      color: #777;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Loan Delinquency</h1>
+<section class="section">
+  <h2 class="section-title">🔹 Data Generation Using Faker and Statistical Logic</h2>
 
-    <h2>🔹 Simulating Borrower and Payment Data</h2>
-    <div class="section">
-      We generate borrower-level monthly data for 24 months (2022–2023), simulating salary, EMI obligations, and monthly payments. This serves as our base behavioral dataset.
-    </div>
+  <div class="section-content">
+    <p><strong>🎯 Objective of This Step</strong><br>
+    To create a realistic dataset representing loan accounts and borrower behavior over time. The dataset simulates various features relevant to loan delinquency modeling, such as borrower income, credit score, loan amount, and payment patterns.</p>
 
-    <h2>🔹 Features in Our Dataset</h2>
-    <div class="section">
-      The dataset includes the following key variables:
+    <p><strong>🛠️ Data Simulation Approach</strong><br>
+    We use the Faker library to generate synthetic data, ensuring that the values resemble real-world distributions. Beyond just generating random data, we apply statistical logic and domain knowledge to craft a dataset that mimics actual borrower behavior.</p>
+
+    <p><strong>👤 Borrower Profile Features</strong><br>
+    Each loan account in the dataset includes the following borrower-level attributes:</p>
+    <ul>
+      <li><strong>Customer ID:</strong> Unique identifier for each borrower.</li>
+      <li><strong>Income:</strong> Monthly income, simulated with a log-normal distribution.</li>
+      <li><strong>Credit Score:</strong> Assigned using a custom logic to reflect realistic credit distributions (ranges from 300 to 850).</li>
+      <li><strong>Loan Amount:</strong> Simulated based on income, ensuring proportional borrowing.</li>
+      <li><strong>Loan Term:</strong> Typically 12, 24, or 36 months.</li>
+      <li><strong>Interest Rate:</strong> Varies inversely with credit score to reflect risk-based pricing.</li>
+      <li><strong>EMI (Equated Monthly Installment):</strong> Calculated based on loan amount, term, and interest.</li>
+      <li><strong>Start Date:</strong> Loan initiation month.</li>
+      <li><strong>Demographic Variables:</strong> Age, employment type, region, etc.</li>
+    </ul>
+
+    <p><strong>📆 Monthly Grid Creation</strong><br>
+    We simulate a month-by-month view for each borrower using an exploded grid:</p>
+    <ul>
+      <li><strong>For each month, we track:</strong></li>
       <ul>
-        <li><strong>customer_id</strong>: Unique identifier for the borrower</li>
-        <li><strong>month</strong>: Year-month of observation</li>
-        <li><strong>monthly_salary</strong>: Simulated monthly salary</li>
-        <li><strong>monthly_emi</strong>: Simulated EMI burden</li>
-        <li><strong>paid_emi</strong>: Actual amount paid by the customer</li>
-        <li><strong>dpd</strong>: Days past due (calculated if full EMI is not paid)</li>
-        <li><strong>bucket</strong>: Categorization of delinquency: Current, 30+, 60+, 90+, Write-off</li>
+        <li>Payment Status (Paid/Missed)</li>
+        <li>DPD (Days Past Due) Bucket</li>
+        <li>Outstanding Balance</li>
       </ul>
-    </div>
-
-    <h2>🔹 Business Logic for Simulation</h2>
-    <div class="section">
+      <li><strong>Payment behavior is linked to:</strong></li>
       <ul>
-        <li>Borrowers are assigned EMI based on a percentage of their salary, typically 30–40%.</li>
-        <li>We randomly introduce missed or partial payments for certain months based on defined risk probabilities.</li>
-        <li>If EMI paid is less than due, we calculate a DPD and move customers to delinquency buckets.</li>
-        <li>Once a borrower enters delinquency, future months carry forward the overdue unless repaid.</li>
+        <li>Credit score</li>
+        <li>Income-to-EMI ratio</li>
+        <li>Random shocks (e.g., job loss simulation)</li>
       </ul>
-    </div>
+    </ul>
 
-    <h2>🔹 Sample Dataset Snapshot</h2>
-    <div class="section">
-      <table>
-        <thead>
-          <tr>
-            <th>customer_id</th>
-            <th>month</th>
-            <th>monthly_salary</th>
-            <th>monthly_emi</th>
-            <th>paid_emi</th>
-            <th>dpd</th>
-            <th>bucket</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>C001</td>
-            <td>2022-01</td>
-            <td>₹65,000</td>
-            <td>₹20,000</td>
-            <td>₹20,000</td>
-            <td>0</td>
-            <td>Current</td>
-          </tr>
-          <tr>
-            <td>C001</td>
-            <td>2022-02</td>
-            <td>₹65,000</td>
-            <td>₹20,000</td>
-            <td>₹0</td>
-            <td>30</td>
-            <td>30+</td>
-          </tr>
-          <tr>
-            <td>C001</td>
-            <td>2022-03</td>
-            <td>₹65,000</td>
-            <td>₹20,000</td>
-            <td>₹0</td>
-            <td>60</td>
-            <td>60+</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <p><strong>⚙️ Missed Payment Simulation Logic</strong><br>
+    We define rules to simulate delinquency:</p>
+    <ul>
+      <li>Borrowers with low credit scores or tight income-to-EMI ratios have higher chances of missing payments.</li>
+      <li>Payment status is assigned using probabilistic thresholds:</li>
+      <ul>
+        <li>High score + high income → ~95% chance of on-time payment</li>
+        <li>Low score + high EMI → ~40–70% chance of delay or miss</li>
+      </ul>
+      <li>Missed payments accumulate into DPD buckets.</li>
+    </ul>
 
-    <h2>🔹 Practical Relevance</h2>
-    <div class="section">
-      This simulation lays the foundation for understanding borrower risk. Financial institutions use similar monthly grids to track delinquency behavior, assess risk scores, and trigger recovery strategies.
-    </div>
+    <p><strong>📊 Delinquency Flag Definition</strong><br>
+    A borrower is considered delinquent if any monthly record shows a missed payment or DPD > 0.<br>
+    This label is used for training and evaluating models later.</p>
+
+    <p><strong>🔍 Example Simulation Rule</strong><br>
+    If a borrower has:<br>
+    <strong>Income:</strong> ₹25,000<br>
+    <strong>EMI:</strong> ₹15,000<br>
+    <strong>Credit Score:</strong> 520<br>
+    Then the chance of missing payment = 60% each month. If 3 consecutive months are missed → borrower enters 60+ DPD bucket.</p>
+
+    <p><strong>🧪 Why This Matters</strong><br>
+    Instead of a flat dataset, this time series simulation adds realism:</p>
+    <ul>
+      <li>Enables transition tracking (from current → 30 DPD → 60 DPD → default)</li>
+      <li>Allows testing of credit policies and scoring models under realistic conditions</li>
+      <li>Sets the stage for predictive modeling in upcoming steps</li>
+    </ul>
+
+    <p><strong>📦 Summary of Simulation Features</strong></p>
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Income</td><td>Log-normal distribution (₹10K–₹100K)</td></tr>
+        <tr><td>Credit Score</td><td>300–850 with bell-shaped logic</td></tr>
+        <tr><td>EMI</td><td>Based on interest, loan term, and amount</td></tr>
+        <tr><td>Monthly Grid</td><td>Tracks payment status, DPD</td></tr>
+        <tr><td>Delinquency</td><td>Flag set if borrower misses at least 1 payment</td></tr>
+      </tbody>
+    </table>
   </div>
-</body>
-</html>
+</section>
+
 
