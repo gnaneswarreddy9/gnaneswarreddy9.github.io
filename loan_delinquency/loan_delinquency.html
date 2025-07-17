@@ -1,170 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Loan Delinquency</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 40px;
-      background-color: #f4f4f4;
-      line-height: 1.8;
+      background-color: #f5f7fa;
       color: #333;
-    }
-    .container {
-      max-width: 960px;
-      margin: auto;
-      background: #fff;
+      line-height: 1.8;
       padding: 40px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 10px;
     }
+
     h1 {
       text-align: center;
-      margin-bottom: 40px;
+      font-size: 36px;
       color: #2c3e50;
+      margin-bottom: 20px;
     }
-    h2 {
-      color: #2980b9;
-    }
-    ul {
-      list-style-type: disc;
-      padding-left: 20px;
-    }
-    .home-button {
-      display: inline-block;
-      background-color: #3498db;
+
+    .home-link {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      font-size: 16px;
+      background: #3498db;
       color: white;
-      padding: 10px 16px;
+      padding: 8px 14px;
+      border-radius: 8px;
       text-decoration: none;
-      border-radius: 6px;
-      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: #2d3436;
+      font-size: 24px;
+      margin-top: 40px;
+    }
+
+    .highlight {
+      color: #c0392b;
       font-weight: bold;
     }
-    .home-button:hover {
-      background-color: #2980b9;
+
+    mark {
+      background-color: #ffeaa7;
     }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+
+    .image-placeholder {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #555;
+      border: 1px dashed #bbb;
+      padding: 20px;
+      background-color: #fff;
+    }
+
     table {
-      border-collapse: collapse;
       width: 100%;
+      border-collapse: collapse;
       margin-top: 20px;
-      background-color: #ecf0f1;
     }
+
     th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
       text-align: left;
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
     }
+
     th {
-      background-color: #bdc3c7;
+      background-color: #ecf0f1;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="../index.html" class="home-button">🏠 Home</a>
-    <h1>Loan Delinquency</h1>
 
-    <p>🔹 <strong>Step 1: Introduction and Business Context</strong></p>
+<a class="home-link" href="/index.html">Home</a>
+<h1>Loan Delinquency</h1>
 
-    <h2>🎯 Objective of the Project</h2>
-    <p>This project simulates a realistic loan portfolio and borrower behavior to study loan delinquency. Using synthetic data generated with statistical logic and the Faker library, we model how different borrower profiles influence the likelihood of missed payments. The simulation serves as a foundation for building risk models and analyzing credit behavior in the banking domain.</p>
+<div class="section">
+  <h2>🔹 Step 1: Introduction and Business Context</h2>
+</div>
 
-    <h2>🏦 Business Context: Why Loan Delinquency Matters</h2>
-    <p>In banking and lending institutions, understanding borrower behavior is critical to managing credit risk. One key indicator of borrower risk is loan delinquency — when a borrower misses scheduled payments.</p>
+<div class="section">
+  <h3>🎯 Objective of the Project</h3>
+  <p>This project simulates a realistic loan portfolio and borrower behavior to study <mark>loan delinquency</mark>. Using synthetic data generated with statistical logic and the <strong>Faker</strong> library, we model how different borrower profiles influence the likelihood of missed payments. The simulation serves as a foundation for building <mark>risk models</mark> and analyzing credit behavior in the <span class="highlight">banking domain</span>.</p>
+</div>
 
-    <p>A delinquent loan refers to a loan where the borrower has missed one or more payments, but the loan hasn’t yet defaulted.</p>
-    <p>Delinquency is an early warning signal of potential default.</p>
+<div class="section">
+  <h3>🏦 Business Context: Why Loan Delinquency Matters</h3>
+  <p>In banking and lending institutions, understanding borrower behavior is critical to managing <mark>credit risk</mark>. One key indicator of borrower risk is <span class="highlight">loan delinquency</span> — when a borrower misses scheduled payments.</p>
 
-    <p>Banks and lenders use delinquency metrics to:</p>
-    <ul>
-      <li>Adjust credit policies</li>
-      <li>Refine credit scoring models</li>
-      <li>Launch early intervention strategies (e.g., calls, repayment plans)</li>
-      <li>Manage capital provisioning (reserving money for potential losses)</li>
-      <li>Optimize collections and recovery processes</li>
-    </ul>
+  <div class="image-placeholder">[Illustration: Borrower payment cycle showing missed payment → Delinquency → Recovery or Default]</div>
 
-    <h2>🧠 What is Delinquency?</h2>
-    <p>A loan becomes delinquent when the borrower fails to pay on the scheduled date.</p>
-    <p>Delinquency is typically measured in buckets:</p>
-    <ul>
-      <li>0–30 days: Mild delinquency</li>
-      <li>31–60 days: Moderate risk</li>
-      <li>61–90+ days: Severe risk or default likely</li>
-    </ul>
-    <p>In this simulation, we define delinquency as any loan with at least one missed payment over the observed period.</p>
+  <p>A <strong>delinquent loan</strong> refers to a loan where the borrower has missed one or more payments, but the loan hasn’t yet defaulted.</p>
+  <p><mark>Delinquency is an early warning signal of potential default.</mark></p>
+  <p><strong>Banks and lenders use delinquency metrics to:</strong></p>
+  <ul>
+    <li>Adjust credit policies</li>
+    <li>Refine credit scoring models</li>
+    <li>Launch early intervention strategies (e.g., calls, repayment plans)</li>
+    <li>Manage capital provisioning (reserving money for potential losses)</li>
+    <li>Optimize collections and recovery processes</li>
+  </ul>
+</div>
 
-    <h2>📉 What Causes Delinquency?</h2>
-    <ul>
-      <li>Low credit score or poor credit history</li>
-      <li>Over-borrowing relative to income</li>
-      <li>High interest rates increasing EMI burden</li>
-      <li>Job loss, emergencies, or economic downturns</li>
-      <li>Lack of financial discipline</li>
-    </ul>
+<div class="section">
+  <h3>🧠 What is Delinquency?</h3>
+  <p>A loan becomes delinquent when the borrower fails to pay on the scheduled date.</p>
+  <p><strong>Delinquency is typically measured in buckets:</strong></p>
+  <ul>
+    <li><mark>0–30 days:</mark> Mild delinquency</li>
+    <li><mark>31–60 days:</mark> Moderate risk</li>
+    <li><mark>61–90+ days:</mark> Severe risk or default likely</li>
+  </ul>
+  <p>In this simulation, we define delinquency as any loan with at least one missed payment over the observed period.</p>
+</div>
 
-    <h2>🧩 How This Project Helps</h2>
-    <p>This simulation provides a sandbox for analyzing delinquency behavior and supports:</p>
-    <ul>
-      <li><strong>Credit Risk Modeling:</strong><br>
-        Use the simulated dataset to build Probability of Default (PD) models.<br>
-        Train logistic regression or XGBoost classifiers to predict delinquency.
-      </li>
-      <li><strong>Segmentation & Targeting:</strong><br>
-        Segment customers based on income, score, and loan characteristics.<br>
-        Identify high-risk borrower groups.
-      </li>
-      <li><strong>Policy Testing:</strong><br>
-        Simulate what happens if credit policies change (e.g., stricter loan limits for low-score borrowers).
-      </li>
-      <li><strong>Portfolio Monitoring:</strong><br>
-        Use the generated data to test dashboards and delinquency trackers for operational use.
-      </li>
-    </ul>
+<div class="section">
+  <h3>📉 What Causes Delinquency?</h3>
+  <ul>
+    <li>Low credit score or poor credit history</li>
+    <li>Over-borrowing relative to income</li>
+    <li>High interest rates increasing EMI burden</li>
+    <li>Job loss, emergencies, or economic downturns</li>
+    <li>Lack of financial discipline</li>
+  </ul>
+</div>
 
-    <h2>🔍 Future Extensions</h2>
-    <p>Once this simulation is complete, we can extend it to:</p>
-    <ul>
-      <li>Model Credit Risk KPIs: PD (Probability of Default), LGD (Loss Given Default), and EAD (Exposure at Default).</li>
-      <li>Run scenario analysis: e.g., “What happens if inflation rises and incomes fall?”</li>
-      <li>Track borrower transitions: From “current” → “30 DPD” → “60 DPD” → “default”.</li>
-      <li>Build early warning systems: Use payment behavior and score changes to predict delinquencies.</li>
-    </ul>
+<div class="section">
+  <h3>🧩 How This Project Helps</h3>
+  <p>This simulation provides a sandbox for analyzing delinquency behavior and supports:</p>
 
-    <h2>📦 Summary</h2>
-    <table>
-      <tr>
-        <th>Key Term</th>
-        <th>Meaning</th>
-      </tr>
-      <tr>
-        <td>Delinquency</td>
-        <td>Missing a scheduled loan payment</td>
-      </tr>
-      <tr>
-        <td>DPD Buckets</td>
-        <td>Days Past Due (e.g., 30 DPD = 30 days late)</td>
-      </tr>
-      <tr>
-        <td>Default</td>
-        <td>When the borrower stops paying entirely</td>
-      </tr>
-      <tr>
-        <td>Credit Score</td>
-        <td>A numerical measure of a borrower’s creditworthiness</td>
-      </tr>
-      <tr>
-        <td>Loan Term</td>
-        <td>Number of months for which the loan is taken</td>
-      </tr>
-      <tr>
-        <td>Interest Rate</td>
-        <td>Cost of borrowing; usually based on credit risk</td>
-      </tr>
-    </table>
+  <p><strong>Credit Risk Modeling:</strong></p>
+  <ul>
+    <li>Use the simulated dataset to build <mark>Probability of Default (PD)</mark> models.</li>
+    <li>Train logistic regression or XGBoost classifiers to predict delinquency.</li>
+  </ul>
 
-  </div>
+  <p><strong>Segmentation & Targeting:</strong></p>
+  <ul>
+    <li>Segment customers based on income, score, and loan characteristics.</li>
+    <li>Identify high-risk borrower groups.</li>
+  </ul>
+
+  <p><strong>Policy Testing:</strong></p>
+  <ul>
+    <li>Simulate what happens if credit policies change (e.g., stricter loan limits for low-score borrowers).</li>
+  </ul>
+
+  <p><strong>Portfolio Monitoring:</strong></p>
+  <ul>
+    <li>Use the generated data to test dashboards and delinquency trackers for operational use.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>🔍 Future Extensions</h3>
+  <ul>
+    <li>Model Credit Risk KPIs: <mark>PD</mark>, <mark>LGD</mark>, and <mark>EAD</mark>.</li>
+    <li>Run scenario analysis: e.g., “What happens if inflation rises and incomes fall?”</li>
+    <li>Track borrower transitions: From “current” → “30 DPD” → “60 DPD” → “default”.</li>
+    <li>Build early warning systems: Use payment behavior and score changes to predict delinquencies.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>📦 Summary</h3>
+  <table>
+    <tr>
+      <th>Key Term</th>
+      <th>Meaning</th>
+    </tr>
+    <tr>
+      <td><strong>Delinquency</strong></td>
+      <td>Missing a scheduled loan payment</td>
+    </tr>
+    <tr>
+      <td><strong>DPD Buckets</strong></td>
+      <td>Days Past Due (e.g., 30 DPD = 30 days late)</td>
+    </tr>
+    <tr>
+      <td><strong>Default</strong></td>
+      <td>When the borrower stops paying entirely</td>
+    </tr>
+    <tr>
+      <td><strong>Credit Score</strong></td>
+      <td>A numerical measure of a borrower’s creditworthiness</td>
+    </tr>
+    <tr>
+      <td><strong>Loan Term</strong></td>
+      <td>Number of months for which the loan is taken</td>
+    </tr>
+    <tr>
+      <td><strong>Interest Rate</strong></td>
+      <td>Cost of borrowing; usually based on credit risk</td>
+    </tr>
+  </table>
+</div>
+
 </body>
 </html>
